@@ -5,7 +5,7 @@ from models.models import *
 user1 = User(username='johndoe', password='password', email='johndoe@example.com',
              first_name='John', last_name='Doe', birth_date=datetime(1990, 1, 1), phone_number='123-456-7890', role='doctor')
 
-user2 = User(username='janedoe', password='password', email='janedoe@example.com',
+user2 = User(username='komsry', password='password1258', email='komsry@example.com',
              first_name='Jane', last_name='Doe', birth_date=datetime(1995, 1, 1), phone_number='123-456-7890', role='secretary')
 
 # create doctors

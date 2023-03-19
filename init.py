@@ -1,23 +1,24 @@
 from flask import Flask,redirect,url_for,render_template,request, jsonify
+import requests
 from models.models  import *
 import models.models as models
-import db_initialization_script
+
 
 #-------------APP CONFIGURATION----------------#
 
 app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI']=  'sqlite:///data.db'
 app.config['secret_key']='secret_key'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+
+
+with app.app_context():
+    db.init_app(app)
+    
 
 #-----------------------------------------------#
 
-
-@app.route('/',methods=['GET','POST'])
-def home():
-    if request.method=='POST':
-        # Handle POST Request here
-        return render_template('index.html')
-    return render_template('index.html')
 
 # this endpoint avoids errors that arise when the database
 # in concurrently created by multiple gunicorn workers in build
@@ -25,10 +26,11 @@ def home():
 
 @app.route('/init')
 def init():
-    db.engine.execute("DROP SCHEMA public CASCADE;")
-    db.engine.execute("CREATE SCHEMA public;")
-
-    db.create_all(app=app)
+    with app.app_context():
+        db.engine.execute("DROP SCHEMA public CASCADE;")
+        db.engine.execute("CREATE SCHEMA public;")
+        import db_initialization_script
+        db.create_all(app=app)  
 
     return jsonify({
         'success': True
@@ -37,11 +39,13 @@ def init():
 
 @app.route('/')
 def index():
-    
-    data = models.query.all()
-    
+    with app.app_context():
+        db.create_all(app=app)
+        import db_initialization_script
+        data = Doctor.query.all()
+
     return jsonify({
-     data.json()   
+        'data': [d.format() for d in data]
     }), 200
 
 if __name__ == '__main__':
