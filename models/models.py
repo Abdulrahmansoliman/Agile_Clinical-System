@@ -87,7 +87,7 @@ class User(BaseDbModel, db.Model):
 class Doctor(User):
     __tablename__ = 'doctor'
 
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
     specialization = db.Column(db.String(50), nullable=False)
 
     appointments = db.relationship('Appointment', backref='doctor', lazy=True)
@@ -120,7 +120,7 @@ class Doctor(User):
 class Secretary(User):
     __tablename__ = 'secretary'
 
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
 
     appointments = db.relationship(
         'Appointment', backref='secretary', lazy=True)
