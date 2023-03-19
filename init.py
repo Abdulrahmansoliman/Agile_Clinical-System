@@ -27,14 +27,15 @@ with app.app_context():
 @app.route('/init')
 def init():
     with app.app_context():
-        db.engine.execute("DROP SCHEMA public CASCADE;")
-        db.engine.execute("CREATE SCHEMA public;")
+        db.engine.execute(
+            "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
         import db_initialization_script
-        db.create_all(app=app)  
+        db.create_all(app=app)
 
     return jsonify({
         'success': True
     }), 200
+
 
 
 @app.route('/')
@@ -45,7 +46,7 @@ def index():
         data = Doctor.query.all()
 
     return jsonify({
-        'data': [d.format() for d in data]
+            'data': [d.format() for d in data]
     }), 200
 
 if __name__ == '__main__':
