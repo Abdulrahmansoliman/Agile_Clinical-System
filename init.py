@@ -1,6 +1,14 @@
 from flask import Flask,redirect,url_for,render_template,request
+from models.models  import *
+
+#-------------APP CONFIGURATION----------------#
 
 app=Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///data.db'
+app.config['secret_key']='secret_key'
+
+#-----------------------------------------------#
+
 
 @app.route('/',methods=['GET','POST'])
 def home():
