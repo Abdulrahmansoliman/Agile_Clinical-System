@@ -1,17 +1,43 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Link } from "react-router-dom";
+import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+function App() {
+  return (
+    <div className="container">
+      <header>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/appointments">Appointments</Link>
+            </li>
+            <li>
+              <Link to="/patients">Patients</Link>
+            </li>
+            <li>
+              <Link to="/doctors">Doctors</Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <h1>Welcome to the Clinic Management System</h1>
+        <p>Here you can manage your appointments, patients, and doctors.</p>
+        <Link to="/appointments" className="button">
+          Schedule an appointment
+        </Link>
+      </main>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
