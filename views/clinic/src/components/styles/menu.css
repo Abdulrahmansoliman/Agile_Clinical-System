@@ -1,0 +1,29 @@
+.menu {
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.menu-list {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.menu-item:hover {
+  background-color: #e6e6e6;
+}
+
+.search-input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
+  font-size: 1em;
+}
