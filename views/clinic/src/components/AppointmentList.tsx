@@ -1,20 +1,26 @@
 import React from "react";
 import AppointmentCard from "./AppointmentCard";
 import "./styles/AppointmentList.css";
+import { useState, useEffect } from "react";
 
-interface Appointment {
+type Appointment = {
   name: string;
   time: string;
-}
+};
 
-interface AppointmentListProps {
-  appointments: Appointment[];
-}
+function AppointmentList() {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
+  useEffect(() => {
+    fetch("../comunicate/appointments.json")
+      .then((response) => response.json())
+      .then((data) => setAppointments(data))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <div>
-      <h1>Appointment List</h1>
+      <h1 className="appointment-list-h1">Appointment List</h1>
       <div className="appointment-list">
         {appointments.map((appointment, index) => (
           <AppointmentCard
@@ -26,6 +32,5 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
       </div>
     </div>
   );
-};
-
+}
 export default AppointmentList;

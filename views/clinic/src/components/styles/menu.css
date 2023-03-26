@@ -1,6 +1,6 @@
 .menu {
   background-color: #f2f2f2;
-  padding: 10px;
+  border-radius: 10px;
 }
 
 .menu-list {
@@ -9,15 +9,19 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
+  border-radius: 10px;
 }
 
 .menu-item {
   cursor: pointer;
   padding: 10px;
+  border-radius: 10px;
+  width: 300px;
+  justify-content: center;
 }
 
 .menu-item:hover {
-  background-color: #e6e6e6;
+  background-color: #5050504e;
 }
 
 .search-input {

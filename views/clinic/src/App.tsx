@@ -1,28 +1,31 @@
 import Menu from "./components/menu";
 import AppointmentList from "./components/AppointmentList";
 import "./App.css";
+//import { Switch, Route } from "react-router-dom";
 
 function App() {
-  const appointments = [
-    { name: "John Doe", time: "9:00am" },
-    { name: "Jane Smith", time: "10:30am" },
-    { name: "Bob Johnson", time: "2:00pm" },
-    { name: "peter", time: "9:00am" },
-    { name: "khelo", time: "9:00am" },
-    { name: "kamsor", time: "9:00am" },
-    { name: "kamsor", time: "9:00am" },
-    { name: "kamsor", time: "9:00am" },
-    { name: "kamsor", time: "9:00am" },
-  ];
-
   const handleMenuClick = (menu: string) => {
     console.log(`Clicked ${menu}`);
   };
 
   return (
     <div>
-      <Menu onMenuClick={handleMenuClick} />
-      <AppointmentList appointments={appointments} />
+      <Menu
+        onMenuClick={function (menu: string): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <AppointmentList />
+
+      {/* <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/appointments" component={Appointments} />
+        <Route path="/items" component={Items} />
+        <Route path="/patients/add" component={AddPatient} />
+        <Route path="/patients/:id" component={PatientProfile} />
+        <Route path="/archive" component={Archive} />
+        <Route component={NotFound} />
+      </Switch> */}
     </div>
   );
 }
