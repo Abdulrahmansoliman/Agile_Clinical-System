@@ -285,8 +285,28 @@ class LabTest(BaseDbModel, db.Model):
             'result': self.result,
             'date': self.date
         }
+         
 
+class MedicalHistory (BaseDbModel, db.Model):
+    __tablename__ = 'medical_history'
 
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+
+    notes = db.Column(db.String(500), nullable=True)
+    record_id = db.Column(db.Integer, db.ForeignKey(
+        'record.id'), nullable=False)
+
+    def __init__(self, date, notes):
+        self.date = date
+        self.notes = notes
+
+    def __format__(self):
+        return {
+            'id': self.id,
+            'date': self.date,
+            'notes': self.notes
+        }
 class Medication(BaseDbModel, db.Model):
     __tablename__ = 'medication'
 
