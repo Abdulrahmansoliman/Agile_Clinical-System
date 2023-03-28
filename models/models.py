@@ -227,3 +227,106 @@ class ClinicItem(BaseDbModel, db.Model):
             'quantity': self.quantity,
             'secretary_id': self.secretary_id
         }
+class Record(BaseDbModel, db.Model):
+    __tablename__ = 'record'
+
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+    marital_status = db.Column(db.String(50), nullable=True)
+    notes = db.Column(db.String(500), nullable=True)
+
+    lab_tests = db.relationship('LabTest', backref='record', lazy=True)
+    medications = db.relationship('Medication', backref='record', lazy=True)
+    medical_histories = db.relationship('MedicalHistory', backref='record', lazy=True)
+    allergies = db.relationship('Allergy', backref='record', lazy=True)
+
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
+    patient_profile_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
+
+    def __init__(self, date, marital_status=None, notes=None):
+        self.date = date
+        self.marital_status = marital_status
+        self.notes = notes
+
+    def format(self):
+        return {
+            'id': self.id,
+            'date': self.date,
+            'marital_status': self.marital_status,
+            'notes': self.notes,
+            'lab_tests': [lt.format() for lt in self.lab_tests],
+            'medications': [m.format() for m in self.medications],
+            'medical_histories': [mh.format() for mh in self.medical_histories],
+            'allergies': [a.format() for a in self.allergies],
+            'doctor_id': self.doctor_id,
+            'patient_profile_id': self.patient_profile_id
+        }
+
+
+class LabTest(BaseDbModel, db.Model):
+    __tablename__ = 'lab_test'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    result = db.Column(db.String(50), nullable=True)
+    date = db.Column(db.Date, nullable=False)
+
+    record_id = db.Column(db.Integer, db.ForeignKey('record.id'), nullable=False)
+
+    def __init__(self, name, result, date):
+        self.name = name
+        self.result = result
+        self.date = date
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'result': self.result,
+            'date': self.date
+        }
+
+
+class Medication(BaseDbModel, db.Model):
+    __tablename__ = 'medication'
+
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+    notes = db.Column(db.String(500), nullable=True)
+
+    record_id = db.Column(db.Integer, db.ForeignKey('record.id'), nullable=False)
+
+    def __init__(self, date, notes=None):
+        self.date = date
+        self.notes = notes
+
+    def format(self):
+        return {
+            'id': self.id,
+            'date': self.date,
+            'notes': self.notes
+        }
+
+class Allergy(BaseDbModel, db.Model):
+    __tablename__ = 'allergy'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    allergen = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(500), nullable=True)
+
+    record_id = db.Column(db.Integer, db.ForeignKey('record.id'))
+
+    def __init__(self, name, allergen, description=None):
+        self.name = name
+        self.allergen = allergen
+        self.description = description
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'allergen': self.allergen,
+            'description': self.description,
+            'record_id': self.record_id
+        }
