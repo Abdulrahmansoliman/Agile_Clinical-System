@@ -230,25 +230,30 @@ class ClinicItem(BaseDbModel, db.Model):
 class Record(BaseDbModel, db.Model):
     __tablename__ = 'record'
 
+    # Define table columns
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
     marital_status = db.Column(db.String(50), nullable=True)
     notes = db.Column(db.String(500), nullable=True)
 
+    # Define relationships with other tables
     lab_tests = db.relationship('LabTest', backref='record', lazy=True)
     medications = db.relationship('Medication', backref='record', lazy=True)
     medical_histories = db.relationship('MedicalHistory', backref='record', lazy=True)
     allergies = db.relationship('Allergy', backref='record', lazy=True)
 
+    # Define foreign keys
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
     patient_profile_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
 
     def __init__(self, date, marital_status=None, notes=None):
+        # Initialize object with given values
         self.date = date
         self.marital_status = marital_status
         self.notes = notes
 
     def format(self):
+        # Return a formatted dictionary representation of the object
         return {
             'id': self.id,
             'date': self.date,
@@ -263,86 +268,98 @@ class Record(BaseDbModel, db.Model):
         }
 
 
+
 class LabTest(BaseDbModel, db.Model):
     __tablename__ = 'lab_test'
 
+    # Define table columns
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     result = db.Column(db.String(50), nullable=True)
     date = db.Column(db.Date, nullable=False)
-
     record_id = db.Column(db.Integer, db.ForeignKey('record.id'), nullable=False)
 
     def __init__(self, name, result, date):
+        # Initialize instance variables
         self.name = name
         self.result = result
         self.date = date
 
     def format(self):
+        # Format instance variables as dictionary
         return {
             'id': self.id,
             'name': self.name,
             'result': self.result,
             'date': self.date
         }
+
          
 
-class MedicalHistory (BaseDbModel, db.Model):
+class MedicalHistory(BaseDbModel, db.Model):
     __tablename__ = 'medical_history'
 
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, nullable=False)
-
-    notes = db.Column(db.String(500), nullable=True)
-    record_id = db.Column(db.Integer, db.ForeignKey(
-        'record.id'), nullable=False)
-
-    def __init__(self, date, notes):
-        self.date = date
-        self.notes = notes
-
-    def __format__(self):
-        return {
-            'id': self.id,
-            'date': self.date,
-            'notes': self.notes
-        }
-class Medication(BaseDbModel, db.Model):
-    __tablename__ = 'medication'
-
+    # Define table columns
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
     notes = db.Column(db.String(500), nullable=True)
-
     record_id = db.Column(db.Integer, db.ForeignKey('record.id'), nullable=False)
 
-    def __init__(self, date, notes=None):
+    def __init__(self, date, notes):
+        # Initialize instance variables
         self.date = date
         self.notes = notes
 
     def format(self):
+        # Format instance variables as dictionary
         return {
             'id': self.id,
             'date': self.date,
             'notes': self.notes
         }
 
+    
+class Medication(BaseDbModel, db.Model):
+    __tablename__ = 'medication'
+
+    # Define table columns
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, nullable=False)
+    notes = db.Column(db.String(500), nullable=True)
+    record_id = db.Column(db.Integer, db.ForeignKey('record.id'), nullable=False)
+
+    def __init__(self, date, notes=None):
+        # Initialize instance variables
+        self.date = date
+        self.notes = notes
+
+    def format(self):
+        # Format instance variables as dictionary
+        return {
+            'id': self.id,
+            'date': self.date,
+            'notes': self.notes
+        }
+
+
 class Allergy(BaseDbModel, db.Model):
     __tablename__ = 'allergy'
 
+    # Define table columns
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     allergen = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(500), nullable=True)
-
     record_id = db.Column(db.Integer, db.ForeignKey('record.id'))
 
     def __init__(self, name, allergen, description=None):
+        # Initialize instance variables
         self.name = name
         self.allergen = allergen
         self.description = description
 
     def format(self):
+        # Format instance variables as dictionary
         return {
             'id': self.id,
             'name': self.name,
