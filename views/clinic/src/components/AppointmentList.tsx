@@ -1,4 +1,3 @@
-import React from "react";
 import AppointmentCard from "./AppointmentCard";
 import "./styles/AppointmentList.css";
 import { useState, useEffect } from "react";

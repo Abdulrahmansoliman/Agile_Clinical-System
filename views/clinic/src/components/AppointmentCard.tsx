@@ -12,9 +12,6 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ name, time }) => {
     <div className="appointment-card">
       <h2>{name}</h2>
       <p>{time}</p>
-      <Link to={profileUrl}>
-        <button>View Profile</button>
-      </Link>
     </div>
   );
 };
