@@ -7,6 +7,7 @@ import models.models as models
 #-------------APP CONFIGURATION----------------#
 
 app=Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI']=  'sqlite:///data.db'
 app.config['secret_key']='secret_key'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -17,8 +18,13 @@ with app.app_context():
     db.init_app(app)
     
 
-#-----------------------------------------------#
 
+#-------------BluePrints-----------------------#
+
+with app.app_context():
+    from routes.doctors.views import doctors_blueprint
+    app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
+#-----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
 # in concurrently created by multiple gunicorn workers in build
@@ -26,27 +32,26 @@ with app.app_context():
 
 @app.route('/init')
 def init():
-    with app.app_context():
-        db.engine.execute(
-            "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
-        import db_initialization_script
-        db.create_all(app=app)
+    db.engine.execute(
+        "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
+    import db_initialization_script
+    db.create_all(app=app)
 
     return jsonify({
         'success': True
     }), 200
 
 
-
 @app.route('/')
 def index():
-    with app.app_context():
-        db.create_all(app=app)
-        import db_initialization_script
-        data = Doctor.query.all()
+
+    db.create_all(app=app)
+    import db_initialization_script
+    doctors = Doctor.query.all()
+    secretaries = Secretary.query.all()
 
     return jsonify({
-            'data': [d.format() for d in data]
+            'data': [d.format() for d in doctors] + [s.format() for s in secretaries]
     }), 200
 
 if __name__ == '__main__':
