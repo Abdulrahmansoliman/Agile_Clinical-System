@@ -7,3 +7,4 @@ def validate_doctor_id(doctor_id):
     return jsonify({
         'success': True,
     })
+
