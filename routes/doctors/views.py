@@ -38,11 +38,3 @@ def create_doctor(data):
         "success": True,
         "doctor": doctor.format()
     }), 201
-
-@doctors_blueprint.route('/<int:doctor_id>', methods=['PATCH'])
-def patch_doctor(doctor_id, new_id):
-    
-    validate_doctor_id(doctor_id)
-    doctor = Doctor.query.get(doctor_id)
-    doctor.id = new_id
-    
