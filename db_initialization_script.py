@@ -44,4 +44,7 @@ secretary2.insert()
 # add clinic items to database
 clinicitem1.insert()
 clinicitem2.insert()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 54ae957f1d7f2985b9d51071411c0f1e662927e5
