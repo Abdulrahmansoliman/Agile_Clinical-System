@@ -3,20 +3,28 @@ import "./styles/AppointmentList.css";
 import { useState, useEffect } from "react";
 
 type Appointment = {
-  username: string;
-  password: string;
-  phone_number: string;
-  specialization: string;
+  birth_date: string,
+  email: string,
+  first_name: string,
+  id: string,
+  last_name: string,
+  phone_number: string,
+  role: string,
+  specialization: string,
+  username: string,
+   
 };
 
 function AppointmentList() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   useEffect(() => {
-    fetch("../comunicate/appointments.json")
+    fetch("http://localhost:5000/doctors/", {method: "GET"})
       .then((response) => response.json())
-      .then((data) => setAppointments(data))
-      .catch((error) => console.error(error));
+      .then((data) => {console.log(data.data);
+        
+        setAppointments(data.data);})
+      .catch((error) => console.error('alooooooooo',error.message));
   }, []);
 
   return (
