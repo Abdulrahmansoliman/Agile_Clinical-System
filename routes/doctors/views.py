@@ -28,7 +28,7 @@ def get_doctor(doctor_id):
     }), 200
 
 @doctors_blueprint.route('/', methods=['POST'])
-@requires_body('username password email first_name last_name birth_date phone_number specialization ')
+@requires_body('[username] [password] [email] [first_name] [last_name] [birth_date] [phone_number] [specialization]')
 def create_doctor(data):
     
     doctor = Doctor(**data)
