@@ -3,6 +3,7 @@ import requests
 from models.models  import *
 import models.models as models
 
+from flask_cors import CORS
 
 #-------------APP CONFIGURATION----------------#
 
@@ -12,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI']=  'sqlite:///data.db'
 app.config['secret_key']='secret_key'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
+CORS(app, origins="*", methods=["GET", "POST", "PUT", "DELETE"], allow_headers="*")
 
 with app.app_context():
     db.init_app(app)
