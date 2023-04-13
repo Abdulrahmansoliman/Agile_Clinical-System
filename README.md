@@ -4,7 +4,7 @@ This is a simple Flask application for a clinic management system. The applicati
 ## Getting Started
 To get started, first clone the repository:
 ```bash
-    git clone https://github.com/yourusername/clinic-management-system.git
+    git clone https://github.com/Abdulrahmansoliman/Agile_SW
 ```
 Next, create a virtual environment and activate it:
 ```bash
