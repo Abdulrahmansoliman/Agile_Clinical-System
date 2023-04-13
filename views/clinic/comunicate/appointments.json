@@ -1,34 +1,8 @@
 [
   {
-    "name": "John Doe",
-    "time": "10:00 AM"
-  },
-  {
-    "name": "Jane Doe",
-    "time": "11:00 AM"
-  },
-  {
-    "name": "Bob Smith",
-    "time": "1:00 PM"
-  },
-  {
-    "name": "Jane Doe",
-    "time": "11:00 AM"
-  },
-  {
-    "name": "Jane Doe",
-    "time": "11:00 AM"
-  },
-  {
-    "name": "Jane Doe",
-    "time": "11:00 AM"
-  },
-  {
-    "name": "Jane Doe",
-    "time": "11:00 AM"
-  },
-  {
-    "name": "Jane Doe",
-    "time": "11:00 AM"
+    "username": "doctor1",
+    "password": "password",
+    "phone_number": "123-456-7890",
+    "specialization": "General Medicine"
   }
 ]

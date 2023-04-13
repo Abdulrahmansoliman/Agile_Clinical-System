@@ -3,8 +3,10 @@ import "./styles/AppointmentList.css";
 import { useState, useEffect } from "react";
 
 type Appointment = {
-  name: string;
-  time: string;
+  username: string;
+  password: string;
+  phone_number: string;
+  specialization: string;
 };
 
 function AppointmentList() {
@@ -24,8 +26,9 @@ function AppointmentList() {
         {appointments.map((appointment, index) => (
           <AppointmentCard
             key={index}
-            name={appointment.name}
-            time={appointment.time}
+            name={appointment.username}
+            phone={appointment.phone_number}
+            specialization={appointment.specialization}
           />
         ))}
       </div>
