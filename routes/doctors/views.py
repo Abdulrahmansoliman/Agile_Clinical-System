@@ -1,6 +1,8 @@
 from flask import (Blueprint,jsonify)
 import sys
+
 from models.models import Doctor
+from request_errors import requires_body
 
 from routes.doctors.utils import validate_doctor_id
 
@@ -24,3 +26,15 @@ def get_doctor(doctor_id):
         "success": True,
         "doctor": doctor.format()
     }), 200
+
+@doctors_blueprint.route('/', methods=['POST'])
+@requires_body('username password email first_name last_name birth_date phone_number specialization ')
+def create_doctor(data):
+    
+    doctor = Doctor(**data)
+    doctor.insert()
+    
+    return jsonify({
+        "success": True,
+        "doctor": doctor.format()
+    }), 201

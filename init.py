@@ -24,7 +24,9 @@ with app.app_context():
 
 with app.app_context():
     from routes.doctors.views import doctors_blueprint
+    from routes.clinicitems.views import clinicitems_blueprint
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
+    app.register_blueprint(clinicitems_blueprint, url_prefix='/clinicitems')
 #-----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
