@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import *
 from models.models import *
 
 print ('starting db initialization script')
