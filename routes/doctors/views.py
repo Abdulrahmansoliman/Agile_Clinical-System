@@ -83,4 +83,14 @@ def update_doctor(data, doctor_id):
         "doctor": doctor.format()
     }), 200
  
- 
+@doctors_blueprint.route('/<int:doctor_id>', methods=['DELETE'])
+def delete_doctor(doctor_id):
+    
+    validate_doctor_id(doctor_id)
+    doctor = Doctor.query.get(doctor_id)
+    doctor.delete()
+    
+    return jsonify({
+        "success": True,
+        "id_deleted": doctor_id
+    }), 200
