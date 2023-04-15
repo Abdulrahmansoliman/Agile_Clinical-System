@@ -52,6 +52,7 @@ def create_doctor(data):
         "success": True,
         "doctor": doctor.format()
     }), 201
+<<<<<<< HEAD
 
 
 @doctors_blueprint.route('/<int:doctor_id>', methods=['PATCH'])
@@ -84,3 +85,5 @@ def update_doctor(data, doctor_id):
     }), 200
  
  
+=======
+>>>>>>> 8b8bf7acea74195ecfcc4d8d8410ece1badf4943
