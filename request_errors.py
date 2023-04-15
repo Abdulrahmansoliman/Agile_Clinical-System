@@ -5,6 +5,20 @@ from flask import request, abort
 from functools import wraps
 
 
+# matches 2020-01-23
+def validate_date_format(date):
+    if date:
+        pattern = re.compile(r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$")
+        if not bool(pattern.match(str(date))):
+            abort(400, "Invalid date format. Format must match 'yyyy-mm-dd'")
+
+# matches 2020-01-23 23:59:01
+def validate_datetime_format(datetime):
+    if datetime:
+        pattern = re.compile(r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]) (0[0-9]|1[0-9]|2[0-3]):(0[0-9]|[1-5][0-9]):(0[0-9]|[0-5][0-9])(\.\d+)?$")
+        if not bool(pattern.match(str(datetime))):
+            abort(400, "Invalid datetime format. Format must match 'yyyy-mm-dd hh:mm:ss'")
+
 def validate_fields(fields, data):
     # Split the fields string into a list of required and optional fields
     required_fields = []
