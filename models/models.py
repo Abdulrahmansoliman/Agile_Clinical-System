@@ -227,6 +227,8 @@ class ClinicItem(BaseDbModel, db.Model):
             'quantity': self.quantity,
             'secretary_id': self.secretary_id
         }
+    
+    
 class Record(BaseDbModel, db.Model):
     __tablename__ = 'record'
 
