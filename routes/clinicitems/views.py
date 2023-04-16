@@ -38,3 +38,22 @@ def add_clinicitems(data):
         "clinicitem": clinicitem.format()
     }), 201    
     
+
+@clinicitems_blueprint.route('/<int:clinicitem_id>', methods=['PATCH'])
+@requires_body("[name] [quantity] [secretary_id]")
+def edit_clinicalitems(data, clinicitem_id):
+    
+    validate_clinicitem_id(clinicitem_id)
+    
+    clinicitem = ClinicItem.query.get(clinicitem_id) 
+    
+    clinicitem.name = data['name']
+    clinicitem.quantity = data['quantity']
+    clinicitem.secretary_id = data['secretary_id']
+    
+    clinicitem.update()
+    
+    return jsonify({
+        "suceess": True,
+        "clinicitem": clinicitem.format()
+    }), 200
