@@ -1,6 +1,6 @@
 from flask import (Blueprint,jsonify)
 import sys
-from models.models import ClinicItem
+from models.clinicalitems.clinicalitems import ClinicItem
 
 from routes.clinicitems.utils import validate_clinicitem_id
 
