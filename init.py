@@ -2,7 +2,7 @@ from flask import Flask,redirect,url_for,render_template,request, jsonify
 import requests
 from models.models  import *
 import models.models as models
-
+from models import *
 from flask_cors import CORS
 
 #-------------APP CONFIGURATION----------------#
