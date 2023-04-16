@@ -3,6 +3,7 @@ import sys
 from models.clinicalitems.clinicalitems import ClinicItem
 
 from routes.clinicitems.utils import validate_clinicitem_id
+from request_errors import requires_body
 
 clinicitems_blueprint = Blueprint('clinicitems', __name__)
 
@@ -24,3 +25,16 @@ def get_clinicitem(clinicitem_id):
             "success": True,
             "clinicitem": clinicitem.format()
         }), 200
+        
+@clinicitems_blueprint.route('/', methods=['POST'])
+@requires_body("[name] [quantity] [secretary_id]")
+def add_clinicitems(data):
+    
+    clinicitem = ClinicItem(**data)
+    clinicitem.insert()
+    
+    return jsonify({
+        "success": True,
+        "clinicitem": clinicitem.format()
+    }), 201    
+    
