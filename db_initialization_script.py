@@ -1,5 +1,5 @@
 from datetime import *
-from models.models import *
+from models import *
 
 print ('starting db initialization script')
 # create users
