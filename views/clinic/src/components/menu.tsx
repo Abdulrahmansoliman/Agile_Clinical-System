@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./styles/Menu.css";
 
 interface MenuProps {
@@ -13,24 +14,19 @@ const Menu: React.FC<MenuProps> = ({ onMenuClick }) => {
   return (
     <nav className="menu">
       <ul className="menu-list">
-        <li
-          className="menu-item"
-          onClick={() => handleMenuClick("appointments")}
-        >
+        <Link to="/" className="menu-item">
           Appointments
-        </li>
-        <li className="menu-item" onClick={() => handleMenuClick("items")}>
+        </Link>
+        <Link to="/items" className="menu-item">
           Items
-        </li>
-        <li
-          className="menu-item"
-          onClick={() => handleMenuClick("add-patients")}
-        >
-          Add Patients
-        </li>
-        <li className="menu-item" onClick={() => handleMenuClick("archive")}>
+        </Link>
+        <Link to="/addpatient" className="menu-item">
+          Add patient
+        </Link>
+
+        <Link to="/archive" className="menu-item">
           Archive
-        </li>
+        </Link>
         <li className="menu-item">
           <input className="search-input" type="text" placeholder="Search" />
         </li>

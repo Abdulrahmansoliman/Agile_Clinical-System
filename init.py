@@ -48,7 +48,7 @@ def init():
 @app.route('/')
 def index():
 
-    db.create_all(app=app)
+    db.create_all()
     import db_initialization_script
     doctors = Doctor.query.all()
     secretaries = Secretary.query.all()
