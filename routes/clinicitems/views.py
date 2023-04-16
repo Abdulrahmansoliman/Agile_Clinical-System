@@ -57,3 +57,18 @@ def edit_clinicalitems(data, clinicitem_id):
         "suceess": True,
         "clinicitem": clinicitem.format()
     }), 200
+ 
+ 
+@clinicitems_blueprint.route('/<int:clinicitem_id>', methods=['DELETE'])
+def delete_clinicitem(clinicitem_id):
+    
+    validate_clinicitem_id(clinicitem_id)
+    
+    clinicitem = ClinicItem.query.get(clinicitem_id)
+    
+    clinicitem.delete()
+    
+    return jsonify({
+        "success": True,
+        "item_deleted": clinicitem.format()
+    }), 200        
