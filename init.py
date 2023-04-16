@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI']=  'sqlite:///data.db'
 app.config['secret_key']='secret_key'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-CORS(app, origins="*", methods=["GET", "POST", "PUT", "DELETE"], allow_headers="*")
+CORS(app, origins="*", methods=["GET", "POST", "PUT", "DELETE","PATCH"], allow_headers="*")
 
 with app.app_context():
     db.init_app(app)
