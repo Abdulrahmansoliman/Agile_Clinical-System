@@ -63,7 +63,6 @@ def update_doctor(data, doctor_id):
     
 
     doctor.username = data['username']
-
     doctor.password = data['password']
 
     doctor.email = data['email']
@@ -83,6 +82,7 @@ def update_doctor(data, doctor_id):
         "doctor": doctor.format()
     }), 200
  
+
 @doctors_blueprint.route('/<int:doctor_id>', methods=['DELETE'])
 def delete_doctor(doctor_id):
     
