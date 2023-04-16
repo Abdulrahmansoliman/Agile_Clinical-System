@@ -3,8 +3,7 @@ from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
-from users.users import User
-from users.secretaries import Secretary
+
 
 class ClinicItem(BaseDbModel, db.Model):
     __tablename__ = 'clinic_item'

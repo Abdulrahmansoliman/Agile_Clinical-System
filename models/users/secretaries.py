@@ -4,7 +4,8 @@ from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
 from models.users.users import User 
-
+from models.appointments.appointments import Appointment
+from models.clinicalitems.clinicalitems import ClinicItem
 
 class Secretary(User):
     __tablename__ = 'secretary'

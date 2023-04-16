@@ -3,10 +3,6 @@ from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
-from models.users.users import User
-from models.users.doctors import Doctor
-from models.patients.patients import Patient
-from models.users.secretaries import Secretary
 
 class Appointment(BaseDbModel, db.Model):
     __tablename__ = 'appointment'

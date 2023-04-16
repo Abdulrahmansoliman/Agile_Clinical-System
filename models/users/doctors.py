@@ -5,6 +5,8 @@ from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
 
 from models.users.users import doctor_patient_association, User
+from models.appointments.appointments import Appointment
+from models.patients.patients import Patient
 
 class Doctor(User):
     __tablename__ = 'doctor'
