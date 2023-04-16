@@ -23,6 +23,12 @@ secretary1 = Secretary(username='secretary1', password='password', email='secret
 secretary2 = Secretary(username='secretary2', password='password', email='secretary2@example.com',
                     first_name='Secretary', last_name='Two', birth_date=datetime(1995, 1, 1), phone_number='123-456-7890')
 
+# create clinic items
+clinicitem1 = ClinicItem(name='clinicitem1', quantity=20, secretary_id=1)
+clinicitem2 = ClinicItem(name='clinicitem2', quantity=40, secretary_id=2)
+
+
+
 # add users to database
 user1.insert()
 user2.insert()
@@ -34,3 +40,7 @@ doctor2.insert()
 # add secretaries to database
 secretary1.insert()
 secretary2.insert()
+
+# add clinic items to database
+clinicitem1.insert()
+clinicitem2.insert()
