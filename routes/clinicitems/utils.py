@@ -1,9 +1,13 @@
 from flask import abort, jsonify
+from models.clinicalitems.clinicalitems import ClinicItem
+
 
 def validate_clinicitem_id(clinicitem_id):
-    if clinicitem_id is None:
-        abort(400, 'No clinicitem with the id provided')
-    
-    return jsonify({
-        'success': True,
-    })
+    clinicitem = ClinicItem.query.get(clinicitem_id)
+    if clinicitem is None:
+        error_message = "No item with id {} found".format(clinicitem_id)
+        print(error_message)
+        abort(jsonify({
+            "status": 404,
+            "message": error_message
+        }))
