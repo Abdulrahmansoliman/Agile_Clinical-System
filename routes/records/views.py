@@ -67,4 +67,13 @@ def edit_record(data,record_id):
         "data": record.format()
     }), 200
     
-    
+
+@records_blueprint.route('/<int:record_id>', methods=['DELETE'])
+def delete_record(record_id):
+    validate_record_id(record_id)
+    record = Record.query.get(record_id)
+    record.delete()
+    return jsonify({
+        "success": True,
+        "id_deleted": record_id
+    }), 200    
