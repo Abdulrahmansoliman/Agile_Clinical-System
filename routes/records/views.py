@@ -46,3 +46,25 @@ def add_record(data):
         'data': record.format()
     }), 201    
     
+
+@records_blueprint.route('/<int:record_id>', methods=['PATCH'])
+@requires_body("[date] [marital_status] [notes] [doctor_id] [patient_profile_id]")
+def edit_record(data,record_id):
+    validate_record_id(record_id)
+    date_obj = date_handler(data)
+    
+    record = Record.query.get(record_id)
+    
+    record.date = date_obj
+    record.marital_status = data['marital_status']
+    record.notes = data['notes']
+    record.doctor_id = data['doctor_id']
+    record.patient_profile_id = data['patient_profile_id']
+    
+    record.update()
+    return jsonify({
+        "sucess": True,
+        "data": record.format()
+    }), 200
+    
+    
