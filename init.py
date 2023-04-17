@@ -24,10 +24,12 @@ with app.app_context():
     from routes.doctors.views import doctors_blueprint
     from routes.clinicitems.views import clinicitems_blueprint
     from routes.sercretaries.views import secretaries_blueprint
+    from routes.patients.views import patients_blueprint
     
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
     app.register_blueprint(clinicitems_blueprint, url_prefix='/clinicitems')
+    app.register_blueprint(patients_blueprint, url_prefix='/patients')
 #-----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
