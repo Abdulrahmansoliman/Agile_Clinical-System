@@ -1,5 +1,24 @@
+import RegisterItem from "../components/ItemForm";
+import Menu from "../components/menu";
+import ItemsList from "../components/ItemsList";
+import PurchaseItem from "../components/PurchaseItem";
+import "./styles/items.css";
+
 const Items = () => {
-  return <p> itmes</p>;
+  return (
+    <div>
+      <Menu
+        onMenuClick={function (menu: string): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <div className="container">
+        <ItemsList />
+        <RegisterItem />
+        <PurchaseItem />
+      </div>
+    </div>
+  );
 };
 
 export default Items;
