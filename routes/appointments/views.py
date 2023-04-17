@@ -46,4 +46,25 @@ def add_appointment(data):
         "data": appointment.format()
     }), 201
     
+
+@appointments_blueprint.route('/<int:appointment_id>', methods=['PATCH'])
+@requires_body("[patient_id] [doctor_id] [secretary_id] [start_time] [notes]")
+def edit_appointment(data, appointment_id):
+    validate_appointment_id(appointment_id)
     
+    appointment_date_obj = date_handler(data)
+    appointment = Appointment.query.get(appointment_id)
+    
+    appointment.patient_id = data['patient_id']
+    appointment.doctor_id = data['doctor_id']
+    appointment.secretary_id = data['secretary_id']
+    appointment.start_time = appointment_date_obj
+    appointment.notes = data['notes']
+    
+    appointment.update()
+    
+    return jsonify({
+        "success": True,
+        "appointment": appointment.format()
+    }), 200
+       
