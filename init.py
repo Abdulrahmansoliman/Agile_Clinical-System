@@ -25,11 +25,13 @@ with app.app_context():
     from routes.clinicitems.views import clinicitems_blueprint
     from routes.sercretaries.views import secretaries_blueprint
     from routes.patients.views import patients_blueprint
+    from routes.appointments.views import appointments_blueprint
     
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
     app.register_blueprint(clinicitems_blueprint, url_prefix='/clinicitems')
     app.register_blueprint(patients_blueprint, url_prefix='/patients')
+    app.register_blueprint(appointments_blueprint, url_prefix='/appointments')
 #-----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
@@ -38,10 +40,15 @@ with app.app_context():
 
 @app.route('/init')
 def init():
-    db.engine.execute(
-        "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
-    import db_initialization_script
+    
+    try:
+        db.engine.execute(
+            "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
+    except:
+        pass
     db.create_all(app=app)
+    import db_initialization_script
+    
 
     return jsonify({
         'success': True
@@ -51,8 +58,6 @@ def init():
 @app.route('/')
 def index():
 
-    db.create_all(app=app)
-    import db_initialization_script
     doctors = Doctor.query.all()
     secretaries = Secretary.query.all()
 

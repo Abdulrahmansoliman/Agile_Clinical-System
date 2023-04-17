@@ -1,5 +1,6 @@
 from flask import abort, jsonify
 from models.appointments.appointments import Appointment
+from datetime import *
 
 def validate_appointment_id(appointment_id):
     appointment = Appointment.query.get(appointment_id)
@@ -10,3 +11,10 @@ def validate_appointment_id(appointment_id):
             "status": 404,
             "message": error_message
         }))
+
+
+def date_handler(data):
+    birth_date_str = data['start_time']
+    birth_date_obj = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
+
+    return birth_date_obj

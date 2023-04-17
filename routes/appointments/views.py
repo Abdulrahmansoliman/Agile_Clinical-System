@@ -1,6 +1,8 @@
 from flask import (Blueprint, abort, jsonify)
 from models.appointments.appointments import Appointment
 from routes.appointments.utils import validate_appointment_id
+from request_errors import requires_body
+from routes.appointments.utils import date_handler
 
 appointments_blueprint = Blueprint('appointments', __name__)
 
@@ -21,5 +23,27 @@ def get_appointment(appointment_id):
         'success': True,
         'data': appointment.format()
     }), 200
+    
+
+@appointments_blueprint.route('/', methods=['POST'])
+@requires_body("[patient_id] [doctor_id] [secretary_id] [start_time] [notes]")
+def add_appointment(data):
+    appointment_date_obj = date_handler(data)
+    
+    appointment_data = {
+        "patient_id": data['patient_id'],
+        "doctor_id": data['doctor_id'],
+        "secretary_id": data['secretary_id'],
+        "start_time": appointment_date_obj,
+        "notes": data['notes']
+    }
+    
+    appointment = Appointment(**appointment_data)
+    appointment.insert()
+    
+    return jsonify({
+        "success": True,
+        "data": appointment.format()
+    }), 201
     
     
