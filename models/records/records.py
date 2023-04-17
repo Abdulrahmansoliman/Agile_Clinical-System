@@ -26,11 +26,13 @@ class Record(BaseDbModel, db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
     patient_profile_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
 
-    def __init__(self, date, marital_status=None, notes=None):
+    def __init__(self, date, marital_status=None, notes=None, doctor_id=None, patient_profile_id=None):
         # Initialize object with given values
         self.date = date
         self.marital_status = marital_status
         self.notes = notes
+        self.doctor_id = doctor_id
+        self.patient_profile_id = patient_profile_id
 
     def format(self):
         # Return a formatted dictionary representation of the object
