@@ -67,4 +67,14 @@ def edit_appointment(data, appointment_id):
         "success": True,
         "appointment": appointment.format()
     }), 200
-       
+
+
+@appointments_blueprint.route('/<int:appointment_id>', methods=['DELETE'])
+def delete_appointment(appointment_id):
+    validate_appointment_id(appointment_id)
+    appointment = Appointment.query.get(appointment_id)
+    appointment.delete()
+    return jsonify({
+        "success": True,
+        "appointment_id_deleted": appointment_id
+    }), 200       
