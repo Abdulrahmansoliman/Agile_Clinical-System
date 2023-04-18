@@ -1,4 +1,5 @@
 import AppointmentList from "../components/Appointments/AppointmentList";
+import AddAppointment from "../components/Appointments/AddAppointment";
 import "./styles/homepage.css";
 
 function Homepage() {
@@ -7,7 +8,8 @@ function Homepage() {
   };
 
   return (
-    <div>
+    <div className="container">
+      <AddAppointment />
       <AppointmentList />
     </div>
   );

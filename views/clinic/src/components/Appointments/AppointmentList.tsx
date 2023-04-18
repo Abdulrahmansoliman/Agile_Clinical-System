@@ -3,31 +3,12 @@ import "../styles/AppointmentList.css";
 import { useState, useEffect } from "react";
 
 type Appointment = {
-  patient_id: number;
   doctor_id: number;
-  secretary_id: number;
-  date: Date; //may be edited to date type
-  notes: string;
-};
-
-type Patient = {
-  birth_date: Date;
-  email: string;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-};
-
-type Doctor = {
-  birth_date: Date;
-  email: string;
-  first_name: string;
   id: number;
-  last_name: string;
-  phone_number: string;
-  role: string;
-  specialization: string;
-  username: string;
+  notes: string;
+  patient_id: number;
+  secretary_id: number;
+  start_time: string; //may be edited to date type
 };
 
 //how to fetch data from patient route based on patient id
@@ -35,12 +16,14 @@ type Doctor = {
 
 function AppointmentList() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [patients, setPatients] = useState<Record<number, Patient>>({});
-  const [doctors, setDoctors] = useState<Record<number, Doctor>>({});
 
   useEffect(() => {
-    fetch("http://localhost:5000/Appointments", { method: "GET" })
-      .then((response) => response.json())
+    fetch("http://127.0.0.1:5000/appointments/", { method: "GET" })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+
       .then((data) => {
         console.log(data.data);
 
@@ -48,65 +31,17 @@ function AppointmentList() {
       })
       .catch((error) => console.error("alooooooooo", error.message));
   }, []);
-
-  useEffect(() => {
-    const patientIds = appointments.map(
-      (appointment) => appointment.patient_id
-    );
-    const fetchPatients = async () => {
-      const responses = await Promise.all(
-        patientIds.map((patientId) =>
-          fetch(`http://localhost:5000/patients/${patientId}`)
-        )
-      );
-      const patientData = await Promise.all(
-        responses.map((response) => response.json())
-      );
-      const patients = patientData.reduce((acc, patient) => {
-        acc[patient.data.id] = patient.data;
-        return acc;
-      }, {} as Record<number, Patient>);
-      setPatients((prevPatients) => ({ ...prevPatients, ...patients }));
-    };
-    fetchPatients();
-  }, [appointments]);
-
-  useEffect(() => {
-    const doctorIds = appointments.map((appointment) => appointment.doctor_id);
-    const fetchDoctors = async () => {
-      const responses = await Promise.all(
-        doctorIds.map((doctorId) =>
-          fetch(`http://localhost:5000/doctors/${doctorId}`)
-        )
-      );
-      const doctorData = await Promise.all(
-        responses.map((response) => response.json())
-      );
-      const doctors = doctorData.reduce((acc, doctor) => {
-        acc[doctor.data.id] = doctor.data;
-        return acc;
-      }, {} as Record<number, Doctor>);
-      setDoctors((prevDoctors) => ({ ...prevDoctors, ...doctors }));
-    };
-    fetchDoctors();
-  }, [appointments]);
-
   return (
     <div>
       <h1 className="appointment-list-h1">Appointment List</h1>
       <div className="appointment-list">
-        {appointments.map((appointment, index) => (
+        {appointments.map((appointments, index) => (
           <AppointmentCard
             key={index}
-            id={appointment.patient_id}
-            name={
-              patients[appointment.patient_id]?.first_name +
-              " " +
-              patients[appointment.patient_id]?.last_name
-            }
-            doctor={doctors[appointment.doctor_id]?.first_name}
-            date={appointment.date}
-            notes={appointment.notes}
+            patientId={appointments.patient_id}
+            doctorId={appointments.doctor_id}
+            start_date={appointments.start_time}
+            notes={appointments.notes}
           />
         ))}
       </div>
