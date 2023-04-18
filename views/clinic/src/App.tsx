@@ -3,6 +3,7 @@ import Loginpage from "./pages/loginpage";
 import Addpatient from "./pages/addpatient";
 import Items from "./pages/items";
 import Menu from "./components/menu";
+import Footer from "./components/footer";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/items" element={<Items />} />
         <Route path="*" element={<h1>404: Not Found</h1>} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

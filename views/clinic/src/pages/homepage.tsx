@@ -1,5 +1,4 @@
-import Menu from "../components/menu";
-import AppointmentList from "../components/AppointmentList";
+import AppointmentList from "../components/Appointments/AppointmentList";
 import "./styles/homepage.css";
 
 function Homepage() {

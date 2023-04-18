@@ -1,7 +1,7 @@
-import RegisterItem from "../components/ItemForm";
+import RegisterItem from "../components/Items/ItemForm";
 import Menu from "../components/menu";
-import ItemsList from "../components/ItemsList";
-import PurchaseItem from "../components/PurchaseItem";
+import ItemsList from "../components/Items/ItemsList";
+import PurchaseItem from "../components/Items/PurchaseItem";
 import "./styles/items.css";
 
 const Items = () => {
