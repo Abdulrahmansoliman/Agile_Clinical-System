@@ -1,8 +1,6 @@
 from flask import Flask,redirect,url_for,render_template,request, jsonify
 import requests
-from models.models  import *
-import models.models as models
-
+from models.init import *
 from flask_cors import CORS
 
 #-------------APP CONFIGURATION----------------#
@@ -13,7 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI']=  'sqlite:///data.db'
 app.config['secret_key']='secret_key'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-CORS(app, origins="*", methods=["GET", "POST", "PUT", "DELETE"], allow_headers="*")
+CORS(app, origins="*", methods=["GET", "POST", "PUT", "DELETE","PATCH"], allow_headers="*")
 
 with app.app_context():
     db.init_app(app)
@@ -25,8 +23,17 @@ with app.app_context():
 with app.app_context():
     from routes.doctors.views import doctors_blueprint
     from routes.clinicitems.views import clinicitems_blueprint
+    from routes.sercretaries.views import secretaries_blueprint
+    from routes.patients.views import patients_blueprint
+    from routes.appointments.views import appointments_blueprint
+    from routes.records.views import records_blueprint
+    
+    app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
     app.register_blueprint(clinicitems_blueprint, url_prefix='/clinicitems')
+    app.register_blueprint(patients_blueprint, url_prefix='/patients')
+    app.register_blueprint(appointments_blueprint, url_prefix='/appointments')
+    app.register_blueprint(records_blueprint, url_prefix='/records')
 #-----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
@@ -35,10 +42,15 @@ with app.app_context():
 
 @app.route('/init')
 def init():
-    db.engine.execute(
-        "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
-    import db_initialization_script
+    
+    try:
+        db.engine.execute(
+            "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
+    except:
+        pass
     db.create_all(app=app)
+    import db_initialization_script
+    
 
     return jsonify({
         'success': True
@@ -48,8 +60,6 @@ def init():
 @app.route('/')
 def index():
 
-    db.create_all()
-    import db_initialization_script
     doctors = Doctor.query.all()
     secretaries = Secretary.query.all()
 

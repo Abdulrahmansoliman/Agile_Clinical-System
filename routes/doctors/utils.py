@@ -9,8 +9,8 @@ def validate_doctor_id(doctor_id):
         'success': True,
     })
 
-def date_handler(data):
-    
+
+def date_handler(data):    
     birth_date_str = data['birth_date']
     birth_date_obj = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
     

@@ -1,5 +1,5 @@
 from datetime import *
-from models.models import *
+from models.init import *
 
 print ('starting db initialization script')
 # create users
@@ -27,6 +27,8 @@ secretary2 = Secretary(username='secretary2', password='password', email='secret
 clinicitem1 = ClinicItem(name='clinicitem1', quantity=20, secretary_id=1)
 clinicitem2 = ClinicItem(name='clinicitem2', quantity=40, secretary_id=2)
 
+# add patients to database
+patient1 = Patient(first_name='Ahmed', last_name='Maged', birth_date=datetime(1990, 1, 1), phone_number='01122029349', email='ahmed@gmail.com')
 
 
 # add users to database
@@ -44,3 +46,6 @@ secretary2.insert()
 # add clinic items to database
 clinicitem1.insert()
 clinicitem2.insert()
+
+#add patients to database
+patient1.insert()
