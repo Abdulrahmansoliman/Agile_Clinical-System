@@ -7,11 +7,6 @@ import "./styles/items.css";
 const Items = () => {
   return (
     <div>
-      <Menu
-        onMenuClick={function (menu: string): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
       <div className="container">
         <ItemsList />
         <RegisterItem />

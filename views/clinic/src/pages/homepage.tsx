@@ -9,11 +9,6 @@ function Homepage() {
 
   return (
     <div>
-      <Menu
-        onMenuClick={function (menu: string): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
       <AppointmentList />
     </div>
   );
