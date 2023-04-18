@@ -21,7 +21,7 @@ const Menu: React.FC<MenuProps> = ({ onMenuClick }) => {
           Items
         </Link>
         <Link to="/addpatient" className="menu-item">
-          Add patient
+          patient
         </Link>
 
         <Link to="/archive" className="menu-item">

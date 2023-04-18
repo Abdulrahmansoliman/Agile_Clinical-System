@@ -14,7 +14,11 @@ function ItemsList() {
 
   useEffect(() => {
     fetch("http://localhost:5000/clinicitems", { method: "GET" })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+
       .then((data) => {
         console.log(data.data);
 

@@ -1,6 +1,6 @@
 import Homepage from "./pages/homepage";
 import Loginpage from "./pages/loginpage";
-import Addpatient from "./pages/addpatient";
+import Patient from "./pages/patient";
 import Items from "./pages/items";
 import Menu from "./components/menu";
 import Footer from "./components/footer";
@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Loginpage />} />
-        <Route path="/addpatient" element={<Addpatient />} />
+        <Route path="/addpatient" element={<Patient />} />
         <Route path="/items" element={<Items />} />
         <Route path="*" element={<h1>404: Not Found</h1>} />
       </Routes>

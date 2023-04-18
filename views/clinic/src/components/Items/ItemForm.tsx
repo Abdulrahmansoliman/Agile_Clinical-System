@@ -4,18 +4,17 @@ import "../styles/itemform.css";
 const ItemForm = () => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
     // Create a new item object with the input values
     const newItem = {
-      itemName: itemName,
+      name: itemName,
       quantity: quantity,
-      price: price,
+      secretary_id: 5,
     };
-
+    console.log(newItem);
     // Make a POST request to the API endpoint with the new item data
     fetch("http://127.0.0.1:5000/clinicitems/", {
       method: "POST",
@@ -26,15 +25,11 @@ const ItemForm = () => {
       body: JSON.stringify(newItem),
     })
       .then((response) => {
-        if (response.ok) {
-          console.log("Item registered successfully!");
-          // Reset the form input values
-          setItemName("");
-          setQuantity("");
-          setPrice("");
-        } else {
-          console.error("Failed to register item.");
-        }
+        console.log(response);
+        console.log("Item registered successfully!");
+        // Reset the form input values
+        setItemName("");
+        setQuantity("");
       })
       .catch((error) => {
         console.error("Failed to register item.", error);
