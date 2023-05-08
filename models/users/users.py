@@ -29,7 +29,8 @@ class User(BaseDbModel, db.Model):
     birth_date = db.Column(db.Date, nullable=False)
     phone_number = db.Column(db.String(50), nullable=False)
 
-    user_type = db.Column(db.Integer, nullable=False, foreign_key='user_type.id')
+    user_type = db.Column(db.Integer, db.ForeignKey('user_type.id'), nullable=False)
+    user_type_rel = db.relationship('UserType', backref='User', lazy=True)
 
     role = db.Column(db.Enum('secretary', 'doctor'), nullable=False)
     __mapper_args__ = {

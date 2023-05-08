@@ -1,6 +1,6 @@
 from models.init import db, BaseDbModel
 
-class UserLinks(BaseDbModel, db.Model):
+class UserLink(BaseDbModel, db.Model):
     __tablename__ = 'userlinks'
 
     linkid = db.Column(db.Integer, db.ForeignKey('link.id'), primary_key=True)
