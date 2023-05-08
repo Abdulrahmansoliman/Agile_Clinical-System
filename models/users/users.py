@@ -29,13 +29,15 @@ class User(BaseDbModel, db.Model):
     birth_date = db.Column(db.Date, nullable=False)
     phone_number = db.Column(db.String(50), nullable=False)
 
+    user_type = db.Column(db.Integer, nullable=False, foreign_key='user_type.id')
+
     role = db.Column(db.Enum('secretary', 'doctor'), nullable=False)
     __mapper_args__ = {
         'polymorphic_identity': 'user',
         'polymorphic_on': role
     }
 
-    def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number, role):
+    def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number, user_type, role):
         self.username = username
         self.password = password
         self.email = email
@@ -43,6 +45,7 @@ class User(BaseDbModel, db.Model):
         self.last_name = last_name
         self.birth_date = birth_date
         self.phone_number = phone_number
+        self.user_type = user_type
         self.role = role
 
     def format(self):
@@ -54,5 +57,6 @@ class User(BaseDbModel, db.Model):
             'last_name': self.last_name,
             'birth_date': self.birth_date,
             'phone_number': self.phone_number,
+            'user_type': self.user_type,
             'role': self.role
         }

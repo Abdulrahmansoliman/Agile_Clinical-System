@@ -48,7 +48,9 @@ def init():
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
     except:
         pass
-    db.create_all(app=app)
+    print("Creating tables")
+    db.create_all()
+    print("Tables created")
     import db_initialization_script
     
 

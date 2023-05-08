@@ -1,6 +1,4 @@
 from models.init import db, BaseDbModel
-from models.users.usertypes import UserType
-from models.links.links import Link
 
 class UserLinks(BaseDbModel, db.Model):
     __tablename__ = 'userlinks'
