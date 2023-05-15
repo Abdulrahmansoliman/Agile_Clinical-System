@@ -29,6 +29,8 @@ class User(BaseDbModel, db.Model):
     birth_date = db.Column(db.Date, nullable=False)
     phone_number = db.Column(db.String(50), nullable=False)
 
+    usertypeid = db.Column(db.Integer, db.ForeignKey('user_type.id'), nullable=False)
+
     role = db.Column(db.Enum('secretary', 'doctor'), nullable=False)
     __mapper_args__ = {
         'polymorphic_identity': 'user',
