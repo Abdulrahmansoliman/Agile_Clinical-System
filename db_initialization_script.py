@@ -2,25 +2,39 @@ from datetime import *
 from models.init import *
 
 print ('starting db initialization script')
+
+
+#create user types
+doctoruser = UserType(name='doctor')
+secretaryuser = UserType(name='secretary')
+dumyuser = UserType(name='dumy')
+
+#insert user types
+doctoruser.insert()
+secretaryuser.insert()
+dumyuser.insert()
+
+
 # create users
-user1 = User(username='johndoe', password='password', email='johndoe@example.com',
+user1 = User(username='johndoe', password='password', email='johndoe@example.com', usertypeid=dumyuser.id,
             first_name='John', last_name='Doe', birth_date=datetime(1990, 1, 1), phone_number='123-456-7890', role='doctor')
 
-user2 = User(username='komsry', password='password1258', email='komsry@example.com',
+user2 = User(username='komsry', password='password1258', email='komsry@example.com', usertypeid=dumyuser.id,
             first_name='Jane', last_name='Doe', birth_date=datetime(1995, 1, 1), phone_number='123-456-7890', role='secretary')
 
+print(user1.usertypeid)
 # create doctors
-doctor1 = Doctor(username='doctor1', password='password', email='doctor1@example.com',
+doctor1 = Doctor(username='doctor1', password='password', email='doctor1@example.com', usertypeid=doctoruser.id,
                 first_name='Doctor', last_name='One', birth_date=datetime(1980, 1, 1), phone_number='123-456-7890', specialization='General Medicine')
 
-doctor2 = Doctor(username='doctor2', password='password', email='doctor2@example.com',
+doctor2 = Doctor(username='doctor2', password='password', email='doctor2@example.com', usertypeid=doctoruser.id,
                 first_name='Docor', last_name='Two', birth_date=datetime(1985, 1, 1), phone_number='123-456-7890', specialization='Pediatrics')
 
 # create secretaries
-secretary1 = Secretary(username='secretary1', password='password', email='secretary1@example.com',
+secretary1 = Secretary(username='secretary1', password='password', email='secretary1@example.com', usertypeid=secretaryuser.id,
                     first_name='Secretary', last_name='One', birth_date=datetime(1990, 1, 1), phone_number='123-456-7890')
 
-secretary2 = Secretary(username='secretary2', password='password', email='secretary2@example.com',
+secretary2 = Secretary(username='secretary2', password='password', email='secretary2@example.com', usertypeid=secretaryuser.id,
                     first_name='Secretary', last_name='Two', birth_date=datetime(1995, 1, 1), phone_number='123-456-7890')
 
 # create clinic items
@@ -48,4 +62,4 @@ clinicitem1.insert()
 clinicitem2.insert()
 
 #add patients to database
-patient1.insert()
+#patient1.insert()

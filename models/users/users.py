@@ -37,7 +37,7 @@ class User(BaseDbModel, db.Model):
         'polymorphic_on': role
     }
 
-    def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number, role):
+    def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number, usertypeid, role):
         self.username = username
         self.password = password
         self.email = email
@@ -46,6 +46,7 @@ class User(BaseDbModel, db.Model):
         self.birth_date = birth_date
         self.phone_number = phone_number
         self.role = role
+        self.usertypeid = usertypeid
 
     def format(self):
         return {
