@@ -48,7 +48,7 @@ def init():
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
     except:
         pass
-    db.create_all(app=app)
+    db.create_all()
     import db_initialization_script
     
 
@@ -70,5 +70,3 @@ def index():
 if __name__ == '__main__':
     #DEBUG is SET to TRUE. CHANGE FOR PROD
     app.run(port=5000,debug=True)
-    
-
