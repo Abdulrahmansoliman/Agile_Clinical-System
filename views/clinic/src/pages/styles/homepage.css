@@ -1,7 +1,6 @@
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
   overflow-y: auto;
   max-height: calc(10vh - 120px);
@@ -9,7 +8,7 @@
 
 .component-container {
   display: flex;
-  justify-content: space-between;
+
 }
 
 .component-container>* {
