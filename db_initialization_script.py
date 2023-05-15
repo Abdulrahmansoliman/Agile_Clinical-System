@@ -3,6 +3,11 @@ from models.init import *
 
 print ('starting db initialization script')
 
+# drop all of the existing database tables
+db.drop_all()
+
+# create the database and the database table
+db.create_all()
 
 #create user types
 doctoruser = UserType(name='doctor')
@@ -22,7 +27,7 @@ user1 = User(username='johndoe', password='password', email='johndoe@example.com
 user2 = User(username='komsry', password='password1258', email='komsry@example.com', usertypeid=dumyuser.id,
             first_name='Jane', last_name='Doe', birth_date=datetime(1995, 1, 1), phone_number='123-456-7890', role='secretary')
 
-print(user1.usertypeid)
+
 # create doctors
 doctor1 = Doctor(username='doctor1', password='password', email='doctor1@example.com', usertypeid=doctoruser.id,
                 first_name='Doctor', last_name='One', birth_date=datetime(1980, 1, 1), phone_number='123-456-7890', specialization='General Medicine')
@@ -62,4 +67,4 @@ clinicitem1.insert()
 clinicitem2.insert()
 
 #add patients to database
-#patient1.insert()
+patient1.insert()
