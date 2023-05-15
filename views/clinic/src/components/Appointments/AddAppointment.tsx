@@ -95,7 +95,7 @@ const AddAppointment = () => {
           />
         </label>
         <br />
-        <button type="submit">Add Patient</button>
+        <button type="submit">Add Appointment</button>
       </form>
     </div>
   );
