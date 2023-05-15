@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/itemform.css";
+import "./styles/AddAppointment.css";
 
 const AddAppointment = () => {
   const [patientId, setPatientId] = useState("");
@@ -43,7 +43,8 @@ const AddAppointment = () => {
   };
 
   return (
-    <div className="form">
+    <div className="formAdd">
+      <h2>Add Appointment</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Patient ID:

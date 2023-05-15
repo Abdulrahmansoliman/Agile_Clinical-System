@@ -9,6 +9,11 @@
 
 .component-container {
   display: flex;
+  justify-content: space-between;
+}
+
+.component-container>* {
+  margin-right: 1rem;
 }
 
 /* Hide the scrollbar */
