@@ -49,3 +49,4 @@ from models.records.medications import Medication
 from models.records.allergies import Allergy
 from models.records.labtests import LabTest
 from models.users.usertype   import UserType
+from models.links.links import Link
