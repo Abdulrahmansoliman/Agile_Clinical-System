@@ -1,5 +1,5 @@
 from models.init import db, BaseDbModel
-from models.links.links import Link
+
 
 usertype_link = db.Table('usertype_link',
     db.Column('usertype_id', db.Integer, db.ForeignKey('user_type.id'), primary_key=True),

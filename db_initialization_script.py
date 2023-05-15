@@ -19,8 +19,32 @@ doctoruser.insert()
 secretaryuser.insert()
 dumyuser.insert()
 
+# create links 
+link1 = Link(name='link1', url='https://www.google.com')
+link2 = Link(name='link2', url='https://www.facebook.com')
+link3 = Link(name='link3', url='https://www.twitter.com')
 
-# create users
+# add links to database
+link1.insert()
+link2.insert()
+link3.insert()
+
+# add links to user types
+doctoruser.linking.append(link1)
+doctoruser.linking.append(link2)
+secretaryuser.linking.append(link3)
+db.session.commit()
+
+# test if links are added to user types
+print(doctoruser.linking)
+print(secretaryuser.linking)
+print(link1.user_types)
+print(link2.user_types)
+print(link3.user_types)
+
+
+
+# create dumy users
 user1 = User(username='johndoe', password='password', email='johndoe@example.com', usertypeid=dumyuser.id,
             first_name='John', last_name='Doe', birth_date=datetime(1990, 1, 1), phone_number='123-456-7890', role='doctor')
 
