@@ -6,8 +6,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  transition: transform 0.3s ease-out;
-  overflow-x: auto;
+  overflow-y: auto;
+  max-height: calc(80vh - 100px);
+
 }
 
 .appointment-list-h1 {

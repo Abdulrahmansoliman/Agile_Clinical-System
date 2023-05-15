@@ -1,5 +1,5 @@
-import Menu from "../components/menu";
-import AppointmentList from "../components/AppointmentList";
+import AppointmentList from "../components/Appointments/AppointmentList";
+import AddAppointment from "../components/Appointments/AddAppointment";
 import "./styles/homepage.css";
 
 function Homepage() {
@@ -8,12 +8,8 @@ function Homepage() {
   };
 
   return (
-    <div>
-      <Menu
-        onMenuClick={function (menu: string): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
+    <div className="container">
+      <AddAppointment />
       <AppointmentList />
     </div>
   );
