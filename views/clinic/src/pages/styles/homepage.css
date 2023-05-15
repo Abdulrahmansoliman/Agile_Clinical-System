@@ -7,6 +7,10 @@
   max-height: calc(10vh - 120px);
 }
 
+.component-container {
+  display: flex;
+}
+
 /* Hide the scrollbar */
 .container::-webkit-scrollbar {
   width: 0.5em;

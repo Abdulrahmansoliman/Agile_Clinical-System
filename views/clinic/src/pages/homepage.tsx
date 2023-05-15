@@ -9,8 +9,10 @@ function Homepage() {
 
   return (
     <div className="container">
-      <AddAppointment />
-      <AppointmentList />
+      <div className="component-container">
+        <AddAppointment />
+        <AppointmentList />
+      </div>
     </div>
   );
 }
