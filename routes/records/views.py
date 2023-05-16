@@ -73,7 +73,7 @@ def delete_record(record_id):
     validate_record_id(record_id)
     record = Record.query.get(record_id)
     record.delete()
-    return jsonify({
+    return jsonify({    
         "success": True,
         "id_deleted": record_id
     }), 200    
