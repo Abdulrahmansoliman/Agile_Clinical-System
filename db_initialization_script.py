@@ -28,7 +28,7 @@ clinicitem1 = ClinicItem(name='clinicitem1', quantity=20, secretary_id=1)
 clinicitem2 = ClinicItem(name='clinicitem2', quantity=40, secretary_id=2)
 
 # add patients to database
-patient1 = Patient(first_name='Ahmed', last_name='Maged', birth_date=datetime(1990, 1, 1), phone_number='01122029349', email='ahmed@gmail.com')
+patient1 = Patient(first_name='Ahmed', last_name='Maged', birth_date=datetime(1990, 1, 1), phone_number='01122029349', email='a@gmail.com')
 
 
 # add users to database
@@ -49,3 +49,42 @@ clinicitem2.insert()
 
 #add patients to database
 patient1.insert()
+
+
+# Create a new record object
+record = Record(date=date.today(), marital_status='Married',
+                notes='Patient is feeling much better now')
+
+# Add lab tests to the record
+lab_test1 = LabTest(name='Blood test', result='Normal', date=date.today())
+lab_test2 = LabTest(name='Urine test', result='Abnormal', date=date.today())
+record.lab_tests.append(lab_test1)
+record.lab_tests.append(lab_test2)
+
+# Add medications to the record
+medication1 = Medication(
+    date=date.today(), notes='Take one tablet every 6 hours')
+medication2 = Medication(
+    date=date.today(), notes='Apply cream to affected area twice daily')
+record.medications.append(medication1)
+record.medications.append(medication2)
+
+# Add medical histories to the record
+medical_history1 = MedicalHistory(
+    date=date(2010, 6, 15), notes='Diagnosed with asthma')
+medical_history2 = MedicalHistory(
+    date=date(2015, 8, 10), notes='Diagnosed with diabetes')
+record.medical_histories.append(medical_history1)
+record.medical_histories.append(medical_history2)
+
+# Add allergies to the record
+allergy1 = Allergy(name='Pollen', allergen='Tree pollen',
+                   description='Causes sneezing and itchy eyes')
+allergy2 = Allergy(name='Penicillin', allergen='Antibiotic',
+                   description='Causes rash and swelling')
+record.allergies.append(allergy1)
+record.allergies.append(allergy2)
+
+# Add the record to the database
+db.session.add(record)
+db.session.commit()
