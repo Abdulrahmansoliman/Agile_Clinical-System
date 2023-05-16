@@ -1,0 +1,48 @@
+.header {
+  width: 120%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5rem;
+
+  background-color: rgb(252, 252, 248);
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.appointment-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  grid-gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  overflow-y: auto;
+  max-height: calc(80vh - 100px);
+
+}
+
+.appointment-list-h1 {
+  font-size: 50px;
+  text-align: center;
+}
+
+.appointment-filter {
+
+  text-align: center;
+}
+
+.appointment-filter label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.appointment-filter input[type="date"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
