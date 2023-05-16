@@ -1,0 +1,25 @@
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    overflow-y: auto;
+    max-height: calc(10vh - 120px);
+}
+
+/* Hide the scrollbar */
+.container::-webkit-scrollbar {
+    width: 0.5em;
+    background-color: #f5f5f5;
+}
+
+/* Style the scrollbar thumb */
+.container::-webkit-scrollbar-thumb {
+    background-color: #c5c5c5;
+    border-radius: 4px;
+}
+
+/* Optional: Style the scrollbar track */
+.container::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+}

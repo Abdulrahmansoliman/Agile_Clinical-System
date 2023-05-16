@@ -14,7 +14,7 @@ class Patient(BaseDbModel, db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
     phone_number = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), nullable=False, unique=True)
+    email = db.Column(db.String(120), nullable=False)
     appointments = db.relationship('Appointment', backref='patient', lazy=True)
 
     def __init__(self, first_name, last_name, birth_date, phone_number, email):

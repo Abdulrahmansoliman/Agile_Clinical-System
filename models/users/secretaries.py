@@ -21,9 +21,9 @@ class Secretary(User):
         'polymorphic_identity': 'secretary',
     }
 
-    def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number):
+    def __init__(self, username, password, email, first_name, last_name, birth_date, usertypeid, phone_number):
         super().__init__(username=username, password=password, email=email, first_name=first_name,
-                         last_name=last_name, birth_date=birth_date, phone_number=phone_number, role='secretary')
+                         last_name=last_name, birth_date=birth_date, phone_number=phone_number, usertypeid=usertypeid, role='secretary')
 
     def format(self):
         return {

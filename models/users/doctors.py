@@ -22,9 +22,9 @@ class Doctor(User):
         'polymorphic_identity': 'doctor',
     }
 
-    def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number, specialization):
+    def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number, usertypeid, specialization):
         super().__init__(username=username, password=password, email=email, first_name=first_name,
-                         last_name=last_name, birth_date=birth_date, phone_number=phone_number, role='doctor')
+                         last_name=last_name, birth_date=birth_date, phone_number=phone_number, usertypeid = usertypeid, role='doctor')
         self.specialization = specialization
 
     def format(self):
