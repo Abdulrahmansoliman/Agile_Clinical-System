@@ -69,7 +69,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           </div>
         </div>
       )}
-      <Link to={`/patient/${patientId}`}>
+      <Link to={`/profile/${patientId}`}>
         <button>Profile</button>
       </Link>
     </div>

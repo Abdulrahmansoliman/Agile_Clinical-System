@@ -1,0 +1,18 @@
+.record-card {
+    background-color: #f0f0f0;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.record-card.expanded {
+    height: auto;
+}
+
+.record-card h2 {
+    margin: 0;
+}
+
+.record-card p {
+    margin-top: 0.5rem;
+}
