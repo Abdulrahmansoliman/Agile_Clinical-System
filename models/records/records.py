@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from collections import OrderedDict
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
@@ -35,16 +35,23 @@ class Record(BaseDbModel, db.Model):
         self.patient_profile_id = patient_profile_id
 
     def format(self):
-        # Return a formatted dictionary representation of the object
-        return {
-            'id': self.id,
-            'date': self.date,
-            'marital_status': self.marital_status,
-            'notes': self.notes,
+
+
+        formatted_dict = OrderedDict()
+        formatted_dict['id'] = self.id
+        formatted_dict['date'] = self.date
+        formatted_dict['marital_status'] = self.marital_status
+        formatted_dict['notes'] = self.notes
+        formatted_dict['doctor_id'] = self.doctor_id
+        formatted_dict['patient_profile_id'] = self.patient_profile_id
+
+        return formatted_dict
+
+    def arr_format(self):
+        return{
             'lab_tests': [lt.format() for lt in self.lab_tests],
+
             'medications': [m.format() for m in self.medications],
             'medical_histories': [mh.format() for mh in self.medical_histories],
             'allergies': [a.format() for a in self.allergies],
-            'doctor_id': self.doctor_id,
-            'patient_profile_id': self.patient_profile_id
         }

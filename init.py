@@ -42,7 +42,7 @@ with app.app_context():
 
 @app.route('/init')
 def init():
-    
+    db.drop_all(app=app)
     try:
         db.engine.execute(
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
