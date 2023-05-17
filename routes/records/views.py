@@ -11,7 +11,8 @@ def get_records():
     records = Record.query.all()
     return jsonify({
         'success': True,
-        'data': [r.format() for r in records]
+        'data': [r.format() for r in records],
+        'secondry data': [x.arr_format() for x in records]
     }), 200
  
 
