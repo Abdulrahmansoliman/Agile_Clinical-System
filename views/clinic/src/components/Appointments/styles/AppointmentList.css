@@ -3,8 +3,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 5rem;
-
   background-color: rgb(252, 252, 248);
   padding: 1rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

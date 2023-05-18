@@ -1,0 +1,36 @@
+  .record-list {
+      padding-left: 1rem;
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      align-items: center;
+      grid-gap: 20px;
+      list-style: none;
+      /* overflow-y: auto; */
+      max-height: calc(80vh - 100px);
+  }
+
+  .header {
+      width: 120%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background-color: rgb(252, 252, 248);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+  }
+
+  .record-list h2 {
+      font-size: 50px;
+      text-align: center;
+  }
+
+  .record-list .no-records {
+      color: #999;
+      font-style: italic;
+  }
+
+  .record-list .record-card {
+      margin-bottom: 1rem;
+  }

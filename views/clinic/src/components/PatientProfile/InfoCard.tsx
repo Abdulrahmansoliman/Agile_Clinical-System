@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-//import "./styles/InfoCard.css";
+import "./styles/InfoCard.css";
 
 type Profile = {
   id: number;
@@ -17,7 +17,7 @@ interface InfoCardProps {
 
 const InfoCard: React.FC<InfoCardProps> = ({ patientInfo }) => {
   return (
-    <div>
+    <div className="personal-info">
       <h2>Personal Information</h2>
       <p>
         Name: {patientInfo.first_name} {patientInfo.last_name}

@@ -3,16 +3,65 @@
     padding: 1rem;
     margin-bottom: 1rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: fit-content;
+    border-radius: 4px;
 }
 
 .record-card.expanded {
     height: auto;
 }
 
-.record-card h2 {
-    margin: 0;
+.record-card h3 {
+    font-size: 10 px;
 }
 
 .record-card p {
     margin-top: 0.5rem;
+}
+
+.record-card .identify {
+    background-color: #d8d8d8;
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+
+.record-card button {
+    width: 6rem;
+    height: 4rem;
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+.record-card .delete {
+    background-color: #dc3545;
+    margin-top: 1rem;
+    width: 6rem;
+    height: 4rem;
+}
+
+.record-card .buttons-blue {
+    display: flex;
+}
+
+.record-card .buttons-red {
+    display: flex;
+}
+
+.record-card .buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
 }

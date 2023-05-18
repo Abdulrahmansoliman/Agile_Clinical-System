@@ -13,6 +13,7 @@ type Appointment = {
 
 function AppointmentList() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().slice(0, 10) // Default value is today's date
   );
@@ -22,6 +23,8 @@ function AppointmentList() {
       .then((response) => response.json())
       .then((data) => {
         setAppointments(data.data);
+        console.log("alppp");
+        console.log(appointments);
       })
       .catch((error) => console.error("Error:", error.message));
   }, []);

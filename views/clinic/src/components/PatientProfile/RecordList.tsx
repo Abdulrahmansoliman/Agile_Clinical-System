@@ -2,42 +2,74 @@ import React, { useState, useEffect } from "react";
 import RecordCard from "./RecordCard";
 import "./styles/RecordList.css";
 
-const dummyData = [
-  {
-    recordDate: "2023-05-01",
-    notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    recordDate: "2023-05-02",
-    notes: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    recordDate: "2023-05-03",
-    notes:
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-  },
-];
-
-type Record = {
-  record_date: string;
+export type Record = {
+  id: number;
   notes: string;
+  patient_profile_id: number;
+  date: string;
+  doctor_id: number;
+  marital_status: string;
+
+  allergies: {
+    allergen: string;
+    description: string;
+    id: number;
+    name: string;
+    record_id: number;
+  }[];
+
+  lab_tests: {
+    date: string;
+    id: number;
+    name: string;
+    result: string;
+  }[];
+
+  medical_histories: {
+    date: string;
+    id: number;
+    notes: string;
+  }[];
+
+  medications: {
+    date: string;
+    id: number;
+    notes: string;
+  }[];
 };
 
-interface RecordListProps {
-  records: Record[];
-}
+type RecordListProps = {
+  id: number;
+};
 
-const RecordList: React.FC<RecordListProps> = ({ records }) => {
+const RecordList: React.FC<RecordListProps> = ({ id }) => {
+  const [records, setRecords] = useState<Record[]>([]);
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:5000/records/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setRecords([data.data]);
+        //console.log(data.data);
+        console.log(records);
+      })
+      .catch((error) => console.error("Error fetching records:", error));
+  }, [id]);
+
   return (
-    <div>
-      <h2>Records</h2>
-      {records.map((records, index) => (
-        <RecordCard
-          key={index}
-          recordDate={records.record_date}
-          notes={records.notes}
-        />
-      ))}
+    <div className="record-list">
+      <div className="header">
+        <h2>Records</h2>
+      </div>
+      {records.length === 0 ? (
+        <div className="no-records">No records found</div>
+      ) : (
+        <div>
+          {records.map((record) => (
+            <RecordCard key={record.id} record={record} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
