@@ -9,11 +9,12 @@
     /* Rounded edges */
 }
 
-/* Input fields styles */
+
+
 .formAdd input {
     width: 100%;
     padding: 0.5rem;
-    margin-bottom: 1rem;
+
     border: 1px solid #ccc;
     border-radius: 10px;
     /* Rounded edges */
@@ -38,4 +39,29 @@
     font-weight: bold;
     color: #007bff;
     cursor: pointer;
+}
+
+.search-results {
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 16rem;
+    z-index: 2;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.search-results li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.search-results li:hover {
+    background-color: #f0f0f0;
 }

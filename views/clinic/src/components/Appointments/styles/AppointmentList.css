@@ -1,5 +1,5 @@
 .header {
-  width: 120%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11,7 +11,6 @@
 
 .appointment-list {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   grid-gap: 20px;
   list-style: none;
@@ -19,6 +18,7 @@
   margin-top: 1rem;
   overflow-y: auto;
   max-height: calc(80vh - 100px);
+  flex-direction: column;
 
 }
 

@@ -10,9 +10,31 @@ type Appointment = {
   secretary_id: number;
   start_time: string; // may be edited to date type
 };
+type Patients = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  birth_date: string;
+  phone_number: string;
+  email: string;
+};
+
+type Doctors = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  birth_date: string;
+  phone_number: string;
+  email: string;
+  role: string;
+  specialization: string;
+  username: string;
+};
 
 function AppointmentList() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [patients, setPatients] = useState<Patients[]>([]);
+  const [doctors, setDoctors] = useState<Doctors[]>([]);
 
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().slice(0, 10) // Default value is today's date
@@ -27,6 +49,28 @@ function AppointmentList() {
         console.log(appointments);
       })
       .catch((error) => console.error("Error:", error.message));
+  }, []);
+
+  useEffect(() => {
+    // Fetch all patients from the API
+    fetch("http://127.0.0.1:5000/patients")
+      .then((response) => response.json())
+      .then((data) => {
+        setPatients(data.data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch patients.", error);
+      });
+
+    // Fetch all doctors from the API
+    fetch("http://127.0.0.1:5000/doctors")
+      .then((response) => response.json())
+      .then((data) => {
+        setDoctors(data.data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch doctors.", error);
+      });
   }, []);
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +105,21 @@ function AppointmentList() {
         {filteredAppointments.map((appointment, index) => (
           <AppointmentCard
             key={index}
+            id={appointment.id}
+            patientName={
+              patients.find((patient) => patient.id === appointment.patient_id)
+                ?.first_name +
+              " " +
+              patients.find((patient) => patient.id === appointment.patient_id)
+                ?.last_name
+            }
+            doctorName={
+              doctors.find((doctor) => doctor.id === appointment.doctor_id)
+                ?.first_name +
+              " " +
+              doctors.find((doctor) => doctor.id === appointment.doctor_id)
+                ?.last_name
+            }
             patientId={appointment.patient_id}
             doctorId={appointment.doctor_id}
             start_date={appointment.start_time}

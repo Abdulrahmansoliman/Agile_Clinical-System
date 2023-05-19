@@ -11,8 +11,12 @@ const RecordCard: React.FC<RecordCardProps> = ({ record }) => {
   const [showLabTests, setShowLabTests] = useState(false);
   const [showMedicalHistories, setShowMedicalHistories] = useState(false);
   const [showMedications, setShowMedications] = useState(false);
-  // onDelete: () => void;
 
+  const onDelete = () => {
+    fetch(`http://127.0.0.1:5000/records/${record.id}`, {
+      method: "DELETE",
+    });
+  };
   const handleToggleNotes = () => {
     setShowNotes(!showNotes);
   };
@@ -147,8 +151,9 @@ const RecordCard: React.FC<RecordCardProps> = ({ record }) => {
           </div>
         </div>
         <div className="buttons-red">
-          {/* onClick={onDelete} */}
-          <button className="delete">Delete</button>
+          <button onClick={onDelete} className="delete">
+            Delete
+          </button>
         </div>
       </div>
     </div>
