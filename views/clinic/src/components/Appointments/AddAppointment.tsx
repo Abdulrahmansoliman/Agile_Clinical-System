@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./styles/AddAppointment.css";
+import moment from "moment";
 
 type Patients = {
   id: number;
@@ -30,6 +31,7 @@ const AddAppointment = () => {
   const [secretaryId, setSecretaryId] = useState("");
   const [startTime, setStartTime] = useState("");
   const [notes, setNotes] = useState("");
+  const [date, setDate] = useState("");
 
   useEffect(() => {
     // Fetch all patients from the API
@@ -61,7 +63,7 @@ const AddAppointment = () => {
       patient_id: patientId,
       doctor_id: doctorId,
       secretary_id: secretaryId,
-      start_time: startTime,
+      start_time: new Date(`${date} ${startTime}`).toUTCString(),
       notes: notes,
     };
     console.log(newAppointment);
@@ -134,12 +136,24 @@ const AddAppointment = () => {
         </label>
         <br />
         <label>
+          Date:
+          <input
+            name="date"
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
           Start Time:
           <input
             name="startTime"
-            type="datetime-local"
+            type="time"
             value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
+            onChange={(e) => {
+              setStartTime(e.target.value);
+            }}
           />
         </label>
         <br />
