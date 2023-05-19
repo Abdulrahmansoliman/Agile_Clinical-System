@@ -64,7 +64,6 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   const formattedDate = new Date(start_date).toLocaleString();
   console.log(start_date);
   console.log(formattedDate);
-  console.log("peter");
   return (
     <div className="appointment-card">
       <div>

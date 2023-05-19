@@ -141,7 +141,10 @@ const AddAppointment = () => {
             name="date"
             type="date"
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => {
+              setDate(e.target.value);
+              console.log(date.toString());
+            }}
           />
         </label>
         <br />
@@ -152,7 +155,10 @@ const AddAppointment = () => {
             type="time"
             value={startTime}
             onChange={(e) => {
-              setStartTime(e.target.value);
+              {
+                setStartTime(e.target.value);
+                console.log(startTime.toString());
+              }
             }}
           />
         </label>
