@@ -84,3 +84,4 @@ def delete_patient(patient_id):
         "success": True,
         "id_deleted": patient_id
     }), 200
+
