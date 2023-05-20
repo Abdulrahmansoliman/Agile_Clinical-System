@@ -1,32 +1,12 @@
 import React, { useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+import DynamicForm from "./AddForm";
+import { Allergy, LabTest, MedicalHistory, Medication } from "./AddForm";
+import "./styles/RecordForm.css";
 
-interface RecordFormProps {}
-
-interface Allergy {
-  allergen: string;
-  description: string;
+interface RecordFormProps {
   id: number;
-  name: string;
-  record_id: number;
-}
-
-interface LabTest {
-  date: string;
-  id: number;
-  name: string;
-  result: string;
-}
-
-interface MedicalHistory {
-  date: string;
-  id: number;
-  notes: string;
-}
-
-interface Medication {
-  date: string;
-  id: number;
-  notes: string;
 }
 
 interface RecordFormData {
@@ -36,63 +16,195 @@ interface RecordFormData {
   date: string;
   doctor_id: number;
   marital_status: string;
-  allergies: Allergy[];
-  lab_tests: LabTest[];
-  medical_histories: MedicalHistory[];
-  medications: Medication[];
+  lab_tests: {
+    test: string;
+    results: string;
+    date: string;
+  }[];
+  medications: {
+    med: string;
+    notes: string;
+  }[];
 }
 
 const RecordForm: React.FC<RecordFormProps> = () => {
-  const [openForm, setopenForm] = useState(false);
+  const [showRecordForm, setShowRecordForm] = useState(false);
 
-  const [formData, setFormData] = useState<RecordFormData>({
-    id: 0,
-    notes: "",
-    patient_profile_id: 0,
-    date: "",
-    doctor_id: 0,
-    marital_status: "",
-    allergies: [],
-    lab_tests: [],
-    medical_histories: [],
-    medications: [],
+  const form = useForm<RecordFormData>({
+    defaultValues: {
+      id: 0,
+      notes: "",
+      patient_profile_id: 0,
+      date: "",
+      doctor_id: 0,
+      marital_status: "",
+      lab_tests: [
+        {
+          test: "",
+          results: "",
+          date: "",
+        },
+      ],
+      medications: [
+        {
+          med: "",
+          notes: "",
+        },
+      ],
+    },
   });
+  const { register, control, handleSubmit, formState } = form;
+  const { errors } = formState;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetch(`http://127.0.0.1:5000/records`, {
+  const {
+    fields: labtestField,
+    append: addLabTest,
+    remove: removeLabTest,
+  } = useFieldArray({
+    name: "lab_tests",
+    control,
+  });
+  const {
+    fields: medicationField,
+    append: addMedication,
+    remove: removeMedication,
+  } = useFieldArray({
+    name: "medications",
+    control,
+  });
+  const handleAddRecord = () => {
+    setShowRecordForm(!showRecordForm);
+  };
+
+  const onSubmit = (data: RecordFormData) => {
+    console.log("Record Form Data: ", form.getValues());
+    setShowRecordForm(!showRecordForm);
+    fetch("http://localhost:5000/records", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        cors: "no-cors",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(form.getValues()),
     })
       .then((response) => response.json())
       .then((data) => {
-        // Call the onSubmit callback with the form data
-        // Reset the form after submission
-        setFormData({
-          id: 0,
-          notes: "",
-          patient_profile_id: 0,
-          date: "",
-          doctor_id: 0,
-          marital_status: "",
-          allergies: [],
-          lab_tests: [],
-          medical_histories: [],
-          medications: [],
-        });
-      })
-      .catch((error) => console.error("Error submitting record:", error));
+        console.log("Success:", data);
+      });
   };
 
   return (
-    <div className="record-form">
-      <h2>Add Record</h2>
-      <form onSubmit={handleSubmit}>
-        <button type="submit">Submit</button>
-      </form>
+    <div>
+      <button className="add-record" onClick={handleAddRecord}>
+        Add Record
+      </button>
+      {showRecordForm && (
+        <div className="containerForm">
+          <h2>Record Form</h2>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <label>
+              Notes:
+              <textarea
+                id="notes"
+                {...register("notes", {
+                  required: {
+                    value: true,
+                    message: "Don't forget to add Notes",
+                  },
+                })}
+              ></textarea>
+              <p className="error">{errors.notes?.message}</p>
+            </label>
+            <br />
+            <label>
+              Marital Status:
+              <input
+                list="martial"
+                type="text"
+                {...register("marital_status", {
+                  required: {
+                    value: true,
+                    message: "Don't forget to add Marital Status",
+                  },
+                })}
+              />
+              <datalist id="martial">
+                <option value="Married" />
+                <option value="Engaged" />
+                <option value="Divorced" />
+              </datalist>
+              <p className="error"> {errors.marital_status?.message}</p>
+            </label>
+            <br />
+            <label>list of lab tests:</label>
+            <div>
+              {labtestField.map((f, index) => {
+                return (
+                  <div key={f.id}>
+                    <label>Test:{index + 1}</label>
+                    <label>Test type:</label>
+                    <input
+                      type="text"
+                      {...register(`lab_tests.${index}.test` as const)}
+                    />
+                    <label>Results:{index + 1}</label>
+                    <input
+                      type="text"
+                      {...register(`lab_tests.${index}.results` as const)}
+                    />
+                    <button type="button" onClick={() => removeLabTest(index)}>
+                      Remove
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            <br />
+            <label>list of medication:</label>
+            <div>
+              {medicationField.map((f, index) => {
+                return (
+                  <div key={f.id}>
+                    <label>Medication:{index + 1}</label>
+                    <label>Medication type:</label>
+                    <input
+                      type="text"
+                      {...register(`medications.${index}.med` as const)}
+                    />
+                    <label>Notes:{index + 1}</label>
+                    <input
+                      type="text"
+                      {...register(`medications.${index}.notes` as const)}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeMedication(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => addLabTest({ test: "", results: "", date: "" })}
+            >
+              Add test
+            </button>
+            <button
+              type="button"
+              onClick={() => addMedication({ med: "", notes: "" })}
+            >
+              Add med
+            </button>
+            <button type="submit">Submit</button>
+            <button onClick={handleAddRecord}> close</button>
+          </form>
+          <DevTool control={control} />
+        </div>
+      )}
     </div>
   );
 };

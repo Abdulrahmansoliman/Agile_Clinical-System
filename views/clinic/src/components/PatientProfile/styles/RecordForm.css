@@ -1,0 +1,56 @@
+.containerForm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: scroll;
+    max-height: 80vh;
+    width: 50vw;
+}
+
+.containerForm input {
+    width: 100%;
+    padding: 0.5rem;
+
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    /* Rounded edges */
+}
+
+.containerForm .mybutton {
+    width: 150px;
+    height: 50px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    /* Rounded edges */
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.conatinerForm p {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.conatinerForm h1 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.containerForm .dynamicForm {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RecordCard from "./RecordCard";
 import RecordForm from "./RecordfForm";
 import "./styles/RecordList.css";
+import "./styles/RecordCard.css";
 
 export type Record = {
   id: number;
@@ -45,7 +46,6 @@ type RecordListProps = {
 
 const RecordList: React.FC<RecordListProps> = ({ id }) => {
   const [records, setRecords] = useState<Record[]>([]);
-  const [showRecordForm, setShowRecordForm] = useState(false);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:5000/records/${id}`)
@@ -56,19 +56,12 @@ const RecordList: React.FC<RecordListProps> = ({ id }) => {
       .catch((error) => console.error("Error fetching records:", error));
   }, [id]);
 
-  const handleAddRecord = () => {
-    setShowRecordForm(!showRecordForm);
-  };
-
   return (
     <div className="record-list">
       <div className="header">
         <h2>Records</h2>
-        <button className="add-record" onClick={handleAddRecord}>
-          Add Record
-        </button>
+        <RecordForm id={id} />
       </div>
-      {showRecordForm && <RecordForm />}
       {records.length === 0 ? (
         <div className="no-records">No records found</div>
       ) : (

@@ -26,12 +26,12 @@ type Doctors = {
 const AddAppointment = () => {
   const [patients, setPatients] = useState<Patients[]>([]);
   const [doctors, setDoctors] = useState<Doctors[]>([]);
+
   const [patientId, setPatientId] = useState("");
   const [doctorId, setDoctorId] = useState("");
   const [secretaryId, setSecretaryId] = useState("");
-  const [startTime, setStartTime] = useState("");
   const [notes, setNotes] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(moment().format("YYYY-MM-DDTHH:mm"));
 
   useEffect(() => {
     // Fetch all patients from the API
@@ -63,7 +63,7 @@ const AddAppointment = () => {
       patient_id: patientId,
       doctor_id: doctorId,
       secretary_id: secretaryId,
-      start_time: new Date(`${date} ${startTime}`).toUTCString(),
+      start_time: date,
       notes: notes,
     };
     console.log(newAppointment);
@@ -79,7 +79,7 @@ const AddAppointment = () => {
         setPatientId("");
         setDoctorId("");
         setSecretaryId("");
-        setStartTime("");
+        //setStartTime("");
         setNotes("");
       })
       .catch((error) => {
@@ -138,27 +138,11 @@ const AddAppointment = () => {
         <label>
           Date:
           <input
-            name="date"
-            type="date"
+            type="datetime-local"
             value={date}
             onChange={(e) => {
               setDate(e.target.value);
-              console.log(date.toString());
-            }}
-          />
-        </label>
-        <br />
-        <label>
-          Start Time:
-          <input
-            name="startTime"
-            type="time"
-            value={startTime}
-            onChange={(e) => {
-              {
-                setStartTime(e.target.value);
-                console.log(startTime.toString());
-              }
+              console.log(new Date(e.target.value));
             }}
           />
         </label>
