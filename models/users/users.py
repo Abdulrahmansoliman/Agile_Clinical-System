@@ -48,6 +48,10 @@ class User(BaseDbModel, db.Model):
         self.role = role
         self.usertypeid = usertypeid
 
+    def check_password(self, password):
+        """Checks if the given password matches the stored password."""
+        return bcrypt.checkpw(password.encode('utf-8'), self.password)
+
     def format(self):
         return {
             'id': self.id,

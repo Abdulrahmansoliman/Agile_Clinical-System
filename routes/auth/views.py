@@ -16,7 +16,7 @@ def login(data):
     user = User.query.filter_by(email=email).first()
     usertype_id = user.usertypeid
     
-    if user is None or user.password != password:
+    if user is None or not user.check_password(password):
         return jsonify({
             'success': False,
             'message': 'Invalid email or password'
