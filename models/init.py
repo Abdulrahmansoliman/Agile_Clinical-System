@@ -11,6 +11,9 @@ migrate = Migrate()
 class BaseDbModel:
 
     is_deleted = db.Column(db.Boolean, default=False)
+    deleted_at = db.Column(db.DateTime, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.now())
+    updated_at = db.Column(db.DateTime, nullable=False, default=db.func.now(), onupdate=db.func.now())
 
     # TODO: log errors
     def insert(self):
@@ -33,6 +36,7 @@ class BaseDbModel:
     def delete(self):
         try:
             self.is_deleted = True
+            self.deleted_at = db.func.now()
             db.session.commit()
         except Exception as e:
             capture_exception(e)

@@ -82,6 +82,16 @@ user2.insert()
 doctor1.insert()
 doctor2.insert()
 
+print(doctor1.created_at)
+
+delay = timedelta(days=1)
+doctor1.updated_at = doctor1.updated_at + delay
+print(doctor1.updated_at)
+doctor1.update()
+print(doctor1.updated_at)
+doctor1.delete()
+print(doctor1.deleted_at)
+
 # add secretaries to database
 secretary1.insert()
 secretary2.insert()
