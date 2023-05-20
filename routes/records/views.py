@@ -77,4 +77,4 @@ def delete_record(record_id):
     return jsonify({    
         "success": True,
         "id_deleted": record_id
-    }), 200    
+    }), 200        
