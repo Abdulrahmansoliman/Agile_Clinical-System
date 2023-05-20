@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
-
+import bcrypt
 from request_errors import validate_date_format
 
 
@@ -39,7 +39,7 @@ class User(BaseDbModel, db.Model):
 
     def __init__(self, username, password, email, first_name, last_name, birth_date, phone_number, usertypeid, role):
         self.username = username
-        self.password = password
+        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
@@ -47,6 +47,10 @@ class User(BaseDbModel, db.Model):
         self.phone_number = phone_number
         self.role = role
         self.usertypeid = usertypeid
+
+    def check_password(self, password):
+        """Checks if the given password matches the stored password."""
+        return bcrypt.checkpw(password.encode('utf-8'), self.password)
 
     def format(self):
         return {

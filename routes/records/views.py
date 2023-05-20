@@ -11,7 +11,8 @@ def get_records():
     records = Record.query.all()
     return jsonify({
         'success': True,
-        'data': [r.format() for r in records]
+        'data': [r.format() for r in records],
+        'secondry data': [x.arr_format() for x in records]
     }), 200
  
 
@@ -76,4 +77,4 @@ def delete_record(record_id):
     return jsonify({    
         "success": True,
         "id_deleted": record_id
-    }), 200    
+    }), 200        

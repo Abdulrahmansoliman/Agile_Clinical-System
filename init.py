@@ -27,6 +27,7 @@ with app.app_context():
     from routes.patients.views import patients_blueprint
     from routes.appointments.views import appointments_blueprint
     from routes.records.views import records_blueprint
+    from routes.auth.views import auth_blueprint
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
@@ -34,6 +35,7 @@ with app.app_context():
     app.register_blueprint(patients_blueprint, url_prefix='/patients')
     app.register_blueprint(appointments_blueprint, url_prefix='/appointments')
     app.register_blueprint(records_blueprint, url_prefix='/records')
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
 # -----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
@@ -43,6 +45,8 @@ with app.app_context():
 
 @app.route('/init')
 def init():
+
+    db.drop_all(app=app)
 
     try:
         db.engine.execute(
