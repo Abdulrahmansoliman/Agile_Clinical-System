@@ -18,13 +18,15 @@ interface InfoCardProps {
 const InfoCard: React.FC<InfoCardProps> = ({ patientInfo }) => {
   return (
     <div className="personal-info">
-      <h2>Personal Information</h2>
-      <p>
-        Name: {patientInfo.first_name} {patientInfo.last_name}
-      </p>
-      <p>Birth Date: {patientInfo.birth_date}</p>
-      <p>Email: {patientInfo.email}</p>
-      <p>Phone Number: {patientInfo.phone_number}</p>
+      <h1>
+        {patientInfo.first_name} {patientInfo.last_name}
+      </h1>
+      <h2>Birth Date:</h2>
+      <p>{patientInfo.birth_date.slice(0, 17)}</p>
+      <h2>Email:</h2>
+      <p>{patientInfo.email}</p>
+      <h2>Phone Number:</h2>
+      <p>{patientInfo.phone_number}</p>
     </div>
   );
 };

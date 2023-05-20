@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { DevTool } from "@hookform/devtools";
+import { useForm } from "react-hook-form";
 import "./styles/AddAppointment.css";
 import moment from "moment";
 
@@ -23,16 +25,22 @@ type Doctors = {
   username: string;
 };
 
-const AddAppointment = () => {
+interface AppointmentFormData {
+  patient_id: string;
+  doctor_id: string;
+  secretary_id: string;
+  start_time: string;
+  notes: string;
+}
+
+const AddAppointment: React.FC<AppointmentFormData> = () => {
   const [patients, setPatients] = useState<Patients[]>([]);
+  const [Appointments, setAppointments] = useState<AppointmentFormData[]>([]); // [
   const [doctors, setDoctors] = useState<Doctors[]>([]);
 
-  const [patientId, setPatientId] = useState("");
-  const [doctorId, setDoctorId] = useState("");
-  const [secretaryId, setSecretaryId] = useState("");
-  const [notes, setNotes] = useState("");
-  const [date, setDate] = useState(moment().format("YYYY-MM-DDTHH:mm"));
-
+  const { register, control, handleSubmit, formState, reset } =
+    useForm<AppointmentFormData>();
+  const { errors, isSubmitSuccessful, isSubmitting } = formState;
   useEffect(() => {
     // Fetch all patients from the API
     fetch("http://127.0.0.1:5000/patients")
@@ -53,51 +61,47 @@ const AddAppointment = () => {
       .catch((error) => {
         console.error("Failed to fetch doctors.", error);
       });
+
+    // Fetch all appointments from the API
+    fetch("http://127.0.0.1:5000/appointments")
+      .then((response) => response.json())
+      .then((data) => {
+        setAppointments(data.data);
+      });
   }, []);
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
-    // Create a new appointment object with the input values
-    const newAppointment = {
-      patient_id: patientId,
-      doctor_id: doctorId,
-      secretary_id: secretaryId,
-      start_time: date,
-      notes: notes,
-    };
-    console.log(newAppointment);
-    // Make a POST request to the API endpoint with the new appointment data
+  const onSubmit = (data: AppointmentFormData) => {
+    console.log(data);
     fetch("http://127.0.0.1:5000/appointments/", {
       method: "POST",
       mode: "no-cors",
-      body: JSON.stringify(newAppointment),
+      body: JSON.stringify(data),
     })
-      .then((response) => {
-        console.log(response);
-        console.log("Appointment added successfully!");
-        setPatientId("");
-        setDoctorId("");
-        setSecretaryId("");
-        //setStartTime("");
-        setNotes("");
-      })
-      .catch((error) => {
-        console.error("Failed to add Appointment.", error);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
       });
   };
 
   return (
     <div className="formAdd">
       <h2>Add Appointment</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <label>
           Patient:
           <input
+            id="patient_id"
             type="text"
             list="patients"
-            value={patientId}
-            onChange={(e) => setPatientId(e.target.value)}
+            {...register("patient_id", {
+              required: { value: true, message: "Add Pateint id" },
+            })}
           />
           <datalist id="patients">
             {patients.map((patient) => (
@@ -106,15 +110,18 @@ const AddAppointment = () => {
               </option>
             ))}
           </datalist>
+          <p className="error">{errors.patient_id?.message}</p>
         </label>
         <br />
         <label>
           Doctor:
           <input
+            id="doctor_id"
             type="text"
             list="doctors"
-            value={doctorId}
-            onChange={(e) => setDoctorId(e.target.value)}
+            {...register("doctor_id", {
+              required: { value: true, message: "Add the doctor id" },
+            })}
           />
           <datalist id="doctors">
             {doctors.map((doctors) => (
@@ -123,42 +130,67 @@ const AddAppointment = () => {
               </option>
             ))}
           </datalist>
+          <p className="error">{errors.doctor_id?.message}</p>
         </label>
         <br />
         <label>
           Secretary ID:
           <input
-            name="secretaryId"
+            id="secretary_id"
             type="text"
-            value={secretaryId}
-            onChange={(e) => setSecretaryId(e.target.value)}
+            {...register("secretary_id", {
+              required: {
+                value: true,
+                message: "will be calculated by the the authentication",
+              },
+            })}
           />
+          <p className="error">{errors.secretary_id?.message}</p>
         </label>
         <br />
         <label>
           Date:
           <input
             type="datetime-local"
-            value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-              console.log(new Date(e.target.value));
-            }}
+            {...register("start_time", {
+              required: {
+                value: true,
+                message: "please add the start time of the session",
+              },
+              validate: {
+                starttimeExist: (value) => {
+                  return Appointments.find(
+                    (appointment) => appointment.start_time === value
+                  )
+                    ? "this time is already taken"
+                    : true;
+                },
+              },
+            })}
           />
+          <p className="error">{errors.start_time?.message}</p>
         </label>
         <br />
         <label>
           Notes:
           <input
-            name="notes"
+            id="notes"
             type="text"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            {...register("notes", {
+              required: { value: true, message: "what does the patient wants" },
+            })}
           />
+          <p className="error">{errors.notes?.message}</p>
         </label>
         <br />
-        <button type="submit">Add Appointment</button>
+        <div className="buttonsForm">
+          <button type="button" onClick={() => reset()}>
+            reset
+          </button>
+          <button type="submit">Add Appointment</button>
+        </div>
       </form>
+      <DevTool control={control} />
     </div>
   );
 };

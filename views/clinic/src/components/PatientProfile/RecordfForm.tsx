@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import "./styles/RecordForm.css";
@@ -25,14 +25,14 @@ interface RecordFormData {
   }[];
 }
 
-const RecordForm: React.FC<RecordFormProps> = () => {
+const RecordForm: React.FC<RecordFormProps> = ({ id }) => {
   const [showRecordForm, setShowRecordForm] = useState(false);
 
   const form = useForm<RecordFormData>({
     defaultValues: {
       id: 0,
       notes: "",
-      patient_profile_id: 0,
+      patient_profile_id: id,
       date: "",
       doctor_id: 0,
       marital_status: "",
@@ -51,8 +51,8 @@ const RecordForm: React.FC<RecordFormProps> = () => {
       ],
     },
   });
-  const { register, control, handleSubmit, formState } = form;
-  const { errors } = formState;
+  const { register, control, handleSubmit, formState, reset } = form;
+  const { errors, isSubmitSuccessful } = formState;
 
   const {
     fields: labtestField,
@@ -70,19 +70,23 @@ const RecordForm: React.FC<RecordFormProps> = () => {
     name: "medications",
     control,
   });
+
   const handleAddRecord = () => {
     setShowRecordForm(!showRecordForm);
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   const onSubmit = (data: RecordFormData) => {
     console.log("Record Form Data: ", form.getValues());
     setShowRecordForm(!showRecordForm);
     fetch("http://localhost:5000/records", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        cors: "no-cors",
-      },
+      mode: "no-cors",
       body: JSON.stringify(form.getValues()),
     })
       .then((response) => response.json())
@@ -98,11 +102,27 @@ const RecordForm: React.FC<RecordFormProps> = () => {
       </button>
       {showRecordForm && (
         <div className="containerForm">
-          <h2>Record Form</h2>
+          <div className="FormHead">
+            <h3>Record Form</h3>
+            <div>
+              <button
+                type="button"
+                onClick={() => addLabTest({ test: "", results: "", date: "" })}
+              >
+                Add test
+              </button>
+              <button
+                type="button"
+                onClick={() => addMedication({ med: "", notes: "" })}
+              >
+                Add med
+              </button>
+            </div>
+          </div>
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <label>
               Notes:
-              <textarea
+              <input
                 id="notes"
                 {...register("notes", {
                   required: {
@@ -110,7 +130,7 @@ const RecordForm: React.FC<RecordFormProps> = () => {
                     message: "Don't forget to add Notes",
                   },
                 })}
-              ></textarea>
+              ></input>
               <p className="error">{errors.notes?.message}</p>
             </label>
             <br />
@@ -184,21 +204,17 @@ const RecordForm: React.FC<RecordFormProps> = () => {
                 );
               })}
             </div>
-
-            <button
-              type="button"
-              onClick={() => addLabTest({ test: "", results: "", date: "" })}
-            >
-              Add test
-            </button>
-            <button
-              type="button"
-              onClick={() => addMedication({ med: "", notes: "" })}
-            >
-              Add med
-            </button>
-            <button type="submit">Submit</button>
-            <button onClick={handleAddRecord}> close</button>
+            <div className="buttonDown">
+              <div>
+                <button type="submit">Submit</button>
+                <button type="button" onClick={() => reset()}>
+                  reset
+                </button>
+              </div>
+              <div>
+                <button onClick={handleAddRecord}> close</button>
+              </div>
+            </div>
           </form>
           <DevTool control={control} />
         </div>

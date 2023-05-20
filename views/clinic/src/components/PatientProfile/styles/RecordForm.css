@@ -21,7 +21,8 @@
     /* Rounded edges */
 }
 
-.containerForm .mybutton {
+.containerForm button {
+
     width: 150px;
     height: 50px;
     background-color: #007bff;
@@ -32,6 +33,7 @@
     /* Rounded edges */
     cursor: pointer;
     margin-bottom: 1rem;
+    margin-top: 1rem;
 }
 
 .conatinerForm p {
@@ -41,9 +43,8 @@
     cursor: pointer;
 }
 
-.conatinerForm h1 {
-    font-size: 1rem;
-    font-weight: bold;
+.conatinerForm .titleForm {
+    font-size: 10px;
     color: #007bff;
     cursor: pointer;
 }
@@ -53,4 +54,26 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.FormHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.conatinerForm .bottonDown {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
 }
