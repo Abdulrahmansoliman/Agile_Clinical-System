@@ -1,0 +1,87 @@
+  .record-list {
+      padding-left: 1rem;
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      align-items: center;
+      grid-gap: 20px;
+      list-style: none;
+      /* overflow-y: auto; */
+      max-height: calc(80vh - 100px);
+  }
+
+  .header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background-color: rgb(252, 252, 248);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+  }
+
+  .header button {
+      width: 6rem;
+      height: 3rem;
+      padding: 0.5rem;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 1rem;
+
+  }
+
+  .record-list h2 {
+      font-size: 50px;
+      text-align: center;
+  }
+
+  .record-list .no-records {
+      color: #999;
+      font-style: italic;
+  }
+
+  .record-list .record-card {
+      margin-bottom: 1rem;
+  }
+
+  .notes-window {
+      position: relative;
+      display: inline-block;
+  }
+
+  .notes-window {
+      position: relative;
+      display: inline-block;
+  }
+
+  .notes-window .modal {
+      padding: 30rem;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .notes-window .modal-content {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .notes-window .modal h2 {
+      margin-top: 0;
+  }
+
+  .notes-window .modal p {
+      margin-bottom: 1rem;
+  }

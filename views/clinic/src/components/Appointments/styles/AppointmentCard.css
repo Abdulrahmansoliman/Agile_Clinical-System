@@ -1,30 +1,20 @@
 .appointment-card {
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: flex-start;
   justify-items: center;
-  width: 200px;
-  height: 330px;
+  width: inherit;
+  height: auto;
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.25);
   margin: 0;
+  align-items: flex-end;
 }
 
-.appointment-card button {
-  width: 100%;
-  padding: 0.5rem;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 14px;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 1rem;
-}
+
 
 .appointment-card h2 {
   font-size: 24px;
@@ -42,18 +32,21 @@
   display: inline-block;
 }
 
-.notes-window button {
-  padding: 0.5rem 1rem;
+.button-blue button {
   background-color: #007bff;
   color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 12px;
   border-radius: 4px;
   cursor: pointer;
   max-width: 130px;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  width: 100px;
+  height: 40px;
+  border: none;
+  margin: 2px;
+
 }
 
 .notes-window .modal {
@@ -80,4 +73,37 @@
 
 .notes-window .modal p {
   margin-bottom: 1rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  flex-direction: row-reverse;
+}
+
+.button-red {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  height: 40px;
+}
+
+.button-red:hover {
+  background-color: #cc0000;
+}
+
+.identify {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-left: 5px;
 }
