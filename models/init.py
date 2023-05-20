@@ -9,6 +9,9 @@ migrate = Migrate()
 
 
 class BaseDbModel:
+
+    is_deleted = db.Column(db.Boolean, default=False)
+
     # TODO: log errors
     def insert(self):
         try:
@@ -29,7 +32,7 @@ class BaseDbModel:
 
     def delete(self):
         try:
-            db.session.delete(self)
+            self.is_deleted = True
             db.session.commit()
         except Exception as e:
             capture_exception(e)

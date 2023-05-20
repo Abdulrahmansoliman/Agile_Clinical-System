@@ -4,7 +4,7 @@ from models.records.records import Record
 
 def validate_record_id(record_id):
     record = Record.query.get(record_id)
-    if record is None:
+    if record is None or record.is_deleted == True:
         error_message = "No record with id {} found".format(record_id)
         print(error_message)
         abort(jsonify({

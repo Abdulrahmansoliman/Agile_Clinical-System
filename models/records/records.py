@@ -15,7 +15,6 @@ class Record(BaseDbModel, db.Model):
     date = db.Column(db.Date, nullable=False)
     marital_status = db.Column(db.String(50), nullable=True)
     notes = db.Column(db.String(500), nullable=True)
-    deleted = db.Column(db.Boolean, default=False)
 
     # Define relationships with other tables
     lab_tests = db.relationship('LabTest', backref='record', lazy=True)
@@ -28,14 +27,13 @@ class Record(BaseDbModel, db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
     patient_profile_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
 
-    def __init__(self, date, marital_status=None, notes=None, doctor_id=None, patient_profile_id=None, deleted=False):
+    def __init__(self, date, marital_status=None, notes=None, doctor_id=None, patient_profile_id=None):
         # Initialize object with given values
         self.date = date
         self.marital_status = marital_status
         self.notes = notes
         self.doctor_id = doctor_id
         self.patient_profile_id = patient_profile_id
-        self.deleted = deleted
 
     def format(self):
         # Return a formatted dictionary representation of the object
@@ -46,7 +44,6 @@ class Record(BaseDbModel, db.Model):
             'notes': self.notes,
             'doctor_id': self.doctor_id,
             'patient_profile_id': self.patient_profile_id,
-            'deleted': self.deleted
         }
         return formatted_dict
 
