@@ -6,6 +6,7 @@ from models.init import db, BaseDbModel
 from models.users.users import User
 from models.patients.patients import Patient
 
+
 class Record(BaseDbModel, db.Model):
     __tablename__ = 'record'
 
@@ -14,6 +15,7 @@ class Record(BaseDbModel, db.Model):
     date = db.Column(db.Date, nullable=False)
     marital_status = db.Column(db.String(50), nullable=True)
     notes = db.Column(db.String(500), nullable=True)
+    deleted = db.Column(db.Boolean, default=False)
 
     # Define relationships with other tables
     lab_tests = db.relationship('LabTest', backref='record', lazy=True)
@@ -26,32 +28,34 @@ class Record(BaseDbModel, db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
     patient_profile_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
 
-    def __init__(self, date, marital_status=None, notes=None, doctor_id=None, patient_profile_id=None):
+    def __init__(self, date, marital_status=None, notes=None, doctor_id=None, patient_profile_id=None, deleted=False):
         # Initialize object with given values
         self.date = date
         self.marital_status = marital_status
         self.notes = notes
         self.doctor_id = doctor_id
         self.patient_profile_id = patient_profile_id
+        self.deleted = deleted
 
     def format(self):
-
-
-        formatted_dict = OrderedDict()
-        formatted_dict['id'] = self.id
-        formatted_dict['date'] = self.date
-        formatted_dict['marital_status'] = self.marital_status
-        formatted_dict['notes'] = self.notes
-        formatted_dict['doctor_id'] = self.doctor_id
-        formatted_dict['patient_profile_id'] = self.patient_profile_id
-
+        # Return a formatted dictionary representation of the object
+        formatted_dict = {
+            'id': self.id,
+            'date': self.date,
+            'marital_status': self.marital_status,
+            'notes': self.notes,
+            'doctor_id': self.doctor_id,
+            'patient_profile_id': self.patient_profile_id,
+            'deleted': self.deleted
+        }
         return formatted_dict
 
     def arr_format(self):
-        return{
+        # Return a formatted dictionary representation of the object without deleted flag
+        formatted_dict = {
             'lab_tests': [lt.format() for lt in self.lab_tests],
-
             'medications': [m.format() for m in self.medications],
             'medical_histories': [mh.format() for mh in self.medical_histories],
-            'allergies': [a.format() for a in self.allergies],
+            'allergies': [a.format() for a in self.allergies]
         }
+        return formatted_dict
