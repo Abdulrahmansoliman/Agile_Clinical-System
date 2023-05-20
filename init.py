@@ -44,7 +44,7 @@ with app.app_context():
 @app.route('/init')
 def init():
 
-    db.drop_all(app=app)
+    db.drop_all()
 
     try:
         db.engine.execute(
