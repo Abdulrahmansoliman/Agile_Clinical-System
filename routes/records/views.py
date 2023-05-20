@@ -8,7 +8,7 @@ records_blueprint = Blueprint('records', __name__)
 
 @records_blueprint.route('/', methods=['GET'])
 def get_records():
-    records = Record.query.all()
+    records = Record.query.filter_by(is_deleted=False).all()
     return jsonify({
         'success': True,
         'data': [r.format() for r in records],

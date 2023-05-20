@@ -10,7 +10,7 @@ clinicitems_blueprint = Blueprint('clinicitems', __name__)
 
 @clinicitems_blueprint.route('/', methods=['GET'])
 def get_clinicitems():
-    clinicitems = ClinicItem.query.all()
+    clinicitems = ClinicItem.query.filter_by(is_deleted=False).all()
     return jsonify({
         'success': True,
         'data': [c.format() for c in clinicitems]

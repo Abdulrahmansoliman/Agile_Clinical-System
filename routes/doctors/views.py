@@ -11,7 +11,7 @@ doctors_blueprint = Blueprint('doctors', __name__)
 
 @doctors_blueprint.route('/', methods=['GET'])
 def get_doctors():
-    doctors = Doctor.query.all()
+    doctors = Doctor.query.filter_by(is_deleted=False).all()
     return jsonify({
         'success': True,
         'data': [d.format() for d in doctors]

@@ -9,7 +9,7 @@ secretaries_blueprint = Blueprint('secretaries', __name__)
 
 @secretaries_blueprint.route('/', methods=['GET'])
 def get_secretaries():
-    secretaries = Secretary.query.all()
+    secretaries = Secretary.query.filter_by(is_deleted=False).all()
     return jsonify({
         'success': True,
         'data': [s.format() for s in secretaries]
