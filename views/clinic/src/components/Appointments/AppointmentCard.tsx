@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 interface AppointmentCardProps {
   id: number;
+  childToParent: number;
   patientId: number;
   patientName: string;
   doctorName: string;
@@ -39,6 +40,7 @@ const NotesWindow: React.FC<{ notes: string }> = ({ notes }) => {
 
 const AppointmentCard: React.FC<AppointmentCardProps> = ({
   id,
+  childToParent,
   patientName,
   doctorName,
   patientId,
@@ -52,7 +54,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     });
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [key, setKey] = useState(0);
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
@@ -65,7 +67,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   console.log(start_date);
   console.log(formattedDate);
   return (
-    <div className="appointment-card">
+    <div key={key} className="appointment-card">
       <div>
         <h2 className="identify">{patientName}</h2>
         <p>{doctorName}</p>

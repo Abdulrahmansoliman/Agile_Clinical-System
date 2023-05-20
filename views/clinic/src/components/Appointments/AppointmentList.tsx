@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AppointmentCard from "./AppointmentCard";
 import "./styles/AppointmentList.css";
+import { set } from "react-hook-form";
 
 type Appointment = {
   doctor_id: number;
@@ -36,12 +37,20 @@ function AppointmentList() {
   const [patients, setPatients] = useState<Patients[]>([]);
   const [doctors, setDoctors] = useState<Doctors[]>([]);
 
+  const [key, setKey] = useState(0);
+
+  const childToParent = (childdata: number) => {
+    setKey((prevKey) => prevKey + 1);
+  };
+
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().slice(0, 10) // Default value is today's date
   );
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/appointments/", { method: "GET" })
+    fetch("http://127.0.0.1:5000/appointments/", {
+      method: "GET",
+    })
       .then((response) => response.json())
       .then((data) => {
         setAppointments(data.data);
@@ -88,7 +97,7 @@ function AppointmentList() {
   });
 
   return (
-    <div>
+    <div key={key}>
       <div className="header">
         <h1 className="appointment-list-h1">Appointment List</h1>
         <div className="appointment-filter">
@@ -105,6 +114,7 @@ function AppointmentList() {
         {filteredAppointments.map((appointment, index) => (
           <AppointmentCard
             key={index}
+            childToParent={key}
             id={appointment.id}
             patientName={
               patients.find((patient) => patient.id === appointment.patient_id)

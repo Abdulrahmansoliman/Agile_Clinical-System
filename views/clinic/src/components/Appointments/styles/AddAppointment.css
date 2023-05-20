@@ -31,7 +31,7 @@
     border-radius: 4px;
     /* Rounded edges */
     cursor: pointer;
-    margin-bottom: 1rem;
+    margin: 0.2rem;
 }
 
 .formAdd p {
@@ -49,6 +49,7 @@
 }
 
 .formAdd .bottonForm {
+    margin: 0.5rem;
     display: flex;
     justify-content: flex-end;
     flex-wrap: nowrap;
