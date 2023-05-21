@@ -13,11 +13,13 @@ class ClinicItem(BaseDbModel, db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     secretary_id = db.Column(db.Integer, db.ForeignKey(
         'secretary.id'), nullable=False)
+    price = db.Column(db.Float, nullable=False)
 
-    def __init__(self, name, quantity, secretary_id):
+    def __init__(self, name, quantity, secretary_id, price):
         self.name = name
         self.quantity = quantity
         self.secretary_id = secretary_id
+        self.price = price
 
     def format(self):
         return {

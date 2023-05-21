@@ -17,6 +17,8 @@ class Secretary(User):
     clinic_items = db.relationship(
         'ClinicItem', backref='secretary', lazy=True)
 
+    purchases = db.relationship('Purchase', backref='secretary', lazy=True)
+
     __mapper_args__ = {
         'polymorphic_identity': 'secretary',
     }

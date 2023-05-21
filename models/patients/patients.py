@@ -16,6 +16,7 @@ class Patient(BaseDbModel, db.Model):
     phone_number = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     appointments = db.relationship('Appointment', backref='patient', lazy=True)
+    purchases = db.relationship('Purchase', backref='patient', lazy=True)
 
     def __init__(self, first_name, last_name, birth_date, phone_number, email):
         self.first_name = first_name
