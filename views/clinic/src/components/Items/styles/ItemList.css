@@ -19,6 +19,13 @@
       background-color: rgb(252, 252, 248);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+  }
+
+  .itemheader .buttons {
+      display: flex;
+      align-items: center;
   }
 
   .itemheader button {
