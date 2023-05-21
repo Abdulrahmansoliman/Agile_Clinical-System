@@ -35,13 +35,14 @@ doctoruser.linking.append(link2)
 secretaryuser.linking.append(link3)
 db.session.commit()
 
+'''
 # test if links are added to user types
 print(doctoruser.linking)
 print(secretaryuser.linking)
 print(link1.user_types)
 print(link2.user_types)
 print(link3.user_types)
-
+'''
 
 
 # create dumy users
@@ -67,8 +68,8 @@ secretary2 = Secretary(username='secretary2', password='password', email='secret
                     first_name='Secretary', last_name='Two', birth_date=datetime(1995, 1, 1), phone_number='123-456-7890')
 
 # create clinic items
-clinicitem1 = ClinicItem(name='clinicitem1', quantity=20, secretary_id=1)
-clinicitem2 = ClinicItem(name='clinicitem2', quantity=40, secretary_id=2)
+clinicitem1 = ClinicItem(name='clinicitem1', quantity=20, secretary_id=1, price=10)
+clinicitem2 = ClinicItem(name='clinicitem2', quantity=40, secretary_id=2, price=20)
 
 # add patients to database
 patient1 = Patient(first_name='Ahmed', last_name='Maged', birth_date=datetime(1990, 1, 1), phone_number='01122029349', email='a@gmail.com')
@@ -82,6 +83,7 @@ user2.insert()
 doctor1.insert()
 doctor2.insert()
 
+'''
 print(doctor1.created_at)
 
 delay = timedelta(days=1)
@@ -92,6 +94,8 @@ print(doctor1.updated_at)
 doctor1.delete()
 print(doctor1.deleted_at)
 
+doctor1.insert()
+'''
 # add secretaries to database
 secretary1.insert()
 secretary2.insert()
@@ -141,3 +145,26 @@ record.allergies.append(allergy2)
 # Add the record to the database
 db.session.add(record)
 db.session.commit()
+
+# Create purchase object
+purchase1 = Purchase(patient_id = patient1.id, secretary_id= secretary1.id)
+
+# Add the purchase to the database
+purchase1.insert()
+
+# Create purchasedetails object
+purchasedetail1 = PurchaseDetail(clinic_item_id = clinicitem1.id, purchase_id = purchase1.id, quantity = 5)
+purchasedetail2 = PurchaseDetail(clinic_item_id = clinicitem2.id, purchase_id = purchase1.id, quantity = 10)
+
+# Add the purchasedetails to the database
+purchasedetail1.insert()
+purchasedetail2.insert()
+
+print('purchase1:')
+print(purchase1.format())
+print('purchase1 with items:')
+print(purchase1.format_with_items())
+print('purchasedetail1:')
+print(purchasedetail1.format())
+print('purchasedetail2:')
+print(purchasedetail2.format())
