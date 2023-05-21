@@ -3,8 +3,7 @@ from collections import OrderedDict
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
-from models.users.users import User
-from models.patients.patients import Patient
+
 
 
 class Record(BaseDbModel, db.Model):
@@ -15,6 +14,9 @@ class Record(BaseDbModel, db.Model):
     date = db.Column(db.Date, nullable=False)
     marital_status = db.Column(db.String(50), nullable=True)
     notes = db.Column(db.String(500), nullable=True)
+
+    # Define relationship with reports
+    reports = db.relationship('ReportValue', backref = 'record', lazy = True)
 
     # Define relationships with other tables
     lab_tests = db.relationship('LabTest', backref='record', lazy=True)
@@ -56,3 +58,8 @@ class Record(BaseDbModel, db.Model):
             'allergies': [a.format() for a in self.allergies]
         }
         return formatted_dict
+    
+    def get_reports(self):
+        # Return a formatted dictionary representation of the object without deleted flag
+        values = [v.format() for v in self.reports]
+        return values
