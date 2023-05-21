@@ -12,6 +12,8 @@ class Purchase(BaseDbModel, db.Model):
     total_quantity = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
 
+    purchase_details = db.relationship('PurchaseDetail', backref='purchase', lazy=True)
+
     def __init__(self, patient_id, secretary_id, total_quantity, date):
         self.patient_id = patient_id
         self.secretary_id = secretary_id
