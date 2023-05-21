@@ -160,6 +160,8 @@ purchasedetail2 = PurchaseDetail(clinic_item_id = clinicitem2.id, purchase_id = 
 purchasedetail1.insert()
 purchasedetail2.insert()
 
+# test if purchase is added to patient
+'''
 print('purchase1:')
 print(purchase1.format())
 print('purchase1 with items:')
@@ -168,3 +170,75 @@ print('purchasedetail1:')
 print(purchasedetail1.format())
 print('purchasedetail2:')
 print(purchasedetail2.format())
+'''
+
+# create report entites
+AllergyEntity = ReportEntity(name='Allergy')
+MedicationsEntity = ReportEntity(name='Medications')
+MedicalHistoryEntity = ReportEntity(name='Medical History')
+LabTesTsEntity = ReportEntity(name='Lab Tests')
+
+# add report entites to database
+AllergyEntity.insert()
+MedicationsEntity.insert()
+MedicalHistoryEntity.insert()
+LabTesTsEntity.insert()
+
+# create report attributes
+NameAttribute = ReportAttribute(name='Name', type='string')
+DateAttribute = ReportAttribute(name='Date', type='date')
+NotesAttribute = ReportAttribute(name='Notes', type='string')
+ResultAttribute = ReportAttribute(name='Result', type='string')
+AllergenAttribute = ReportAttribute(name='Allergen', type='string')
+DescriptionAttribute = ReportAttribute(name='Description', type='string')
+
+# add report attributes to database
+NameAttribute.insert()
+DateAttribute.insert()
+NotesAttribute.insert()
+ResultAttribute.insert()
+AllergenAttribute.insert()
+DescriptionAttribute.insert()
+
+
+# create entity attributes
+AllergyEntityAttribute1 = EntityAttribute(report_entity_id=AllergyEntity.id, report_attribute_id=NameAttribute.id)
+AllergyEntityAttribute2 = EntityAttribute(report_entity_id=AllergyEntity.id, report_attribute_id=AllergenAttribute.id)
+AllergyEntityAttribute3 = EntityAttribute(report_entity_id=AllergyEntity.id, report_attribute_id=DescriptionAttribute.id)
+
+MedicationsEntityAttribute2 = EntityAttribute(report_entity_id=MedicationsEntity.id, report_attribute_id=DateAttribute.id)
+MedicationsEntityAttribute3 = EntityAttribute(report_entity_id=MedicationsEntity.id, report_attribute_id=NotesAttribute.id)
+
+MedicalHistoryEntityAttribute2 = EntityAttribute(report_entity_id=MedicalHistoryEntity.id, report_attribute_id=DateAttribute.id)
+MedicalHistoryEntityAttribute3 = EntityAttribute(report_entity_id=MedicalHistoryEntity.id, report_attribute_id=NotesAttribute.id)
+
+LabTesTsEntityAttribute1 = EntityAttribute(report_entity_id=LabTesTsEntity.id, report_attribute_id=NameAttribute.id)
+LabTesTsEntityAttribute2 = EntityAttribute(report_entity_id=LabTesTsEntity.id, report_attribute_id=DateAttribute.id)
+LabTesTsEntityAttribute3 = EntityAttribute(report_entity_id=LabTesTsEntity.id, report_attribute_id=ResultAttribute.id)
+
+# add entity attributes to database
+AllergyEntityAttribute1.insert()
+AllergyEntityAttribute2.insert()
+AllergyEntityAttribute3.insert()
+
+MedicationsEntityAttribute2.insert()
+MedicationsEntityAttribute3.insert()
+
+MedicalHistoryEntityAttribute2.insert()
+MedicalHistoryEntityAttribute3.insert()
+
+LabTesTsEntityAttribute1.insert()
+LabTesTsEntityAttribute2.insert()
+LabTesTsEntityAttribute3.insert()
+
+# test if entity attributes are added to entities by printing each entity with its attributes
+print('AllergyEntity:')
+print(AllergyEntity.get_attributes())
+print('MedicationsEntity:')
+print(MedicationsEntity.get_attributes())
+print('MedicalHistoryEntity:')
+print(MedicalHistoryEntity.get_attributes())
+print('LabTesTsEntity:')
+print(LabTesTsEntity.get_attributes())
+print(AllergyEntity.format_with_attributes())
+
