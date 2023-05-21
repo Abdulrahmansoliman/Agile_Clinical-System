@@ -97,9 +97,7 @@ const RecordForm: React.FC<RecordFormProps> = ({ id }) => {
 
   return (
     <div>
-      <button className="add-record" onClick={handleAddRecord}>
-        Add Record
-      </button>
+      <button onClick={handleAddRecord}>Add Record</button>
       {showRecordForm && (
         <div className="containerForm">
           <div className="FormHead">

@@ -1,6 +1,8 @@
 import ItemCard from "./ItemCard";
-//import "./styles/AointmentList.css";
+import RegisterItem from "./ItemForm";
+import PurchaseItem from "./PurchaseItem";
 import { useState, useEffect } from "react";
+import "./styles/Itemlist.css";
 
 type Items = {
   id: number;
@@ -29,8 +31,12 @@ function ItemsList() {
 
   return (
     <div>
-      <h1 className="appointment-list-h1">Items List</h1>
-      <div className="appointment-list">
+      <div className="itemheader">
+        <h1>Items List</h1>
+        <RegisterItem />
+        <PurchaseItem />
+      </div>
+      <div className="Item-list">
         {items.map((item, index) => (
           <ItemCard
             key={index}

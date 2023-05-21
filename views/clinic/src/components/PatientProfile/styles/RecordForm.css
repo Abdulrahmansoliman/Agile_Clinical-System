@@ -10,6 +10,7 @@
     overflow-y: scroll;
     max-height: 80vh;
     width: 50vw;
+    z-index: 100;
 }
 
 .containerForm input {

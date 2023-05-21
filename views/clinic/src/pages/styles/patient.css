@@ -1,10 +1,11 @@
 .container {
-    max-width: 1280px;
     margin: 0 auto;
-    padding: 2rem;
     text-align: center;
     overflow-y: auto;
-    max-height: calc(10vh - 120px);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-height: max-content;
 }
 
 /* Hide the scrollbar */
