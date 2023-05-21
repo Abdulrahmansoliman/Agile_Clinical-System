@@ -57,3 +57,5 @@ from models.records.allergies import Allergy
 from models.records.labtests import LabTest
 from models.users.usertype   import UserType
 from models.links.links import Link
+from models.clinicalitems.purchase import Purchase
+from models.clinicalitems.purchasedetails import PurchaseDetail
