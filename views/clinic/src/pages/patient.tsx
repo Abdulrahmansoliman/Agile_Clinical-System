@@ -6,9 +6,7 @@ import "./styles/patient.css";
 
 const Patient = () => {
   return (
-    <div className="container">
-      <AddPatient />
-      <DeletePatient />
+    <div className="patientcontainer">
       <PatientList />
     </div>
   );

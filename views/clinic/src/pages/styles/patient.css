@@ -1,26 +1,28 @@
-.container {
+.patientcontainer {
     margin: 0 auto;
     text-align: center;
     overflow-y: auto;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: center;
     max-height: max-content;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
 }
 
 /* Hide the scrollbar */
-.container::-webkit-scrollbar {
+.patientcontainer::-webkit-scrollbar {
     width: 0.5em;
     background-color: #f5f5f5;
 }
 
 /* Style the scrollbar thumb */
-.container::-webkit-scrollbar-thumb {
+.patientcontainer::-webkit-scrollbar-thumb {
     background-color: #c5c5c5;
     border-radius: 4px;
 }
 
 /* Optional: Style the scrollbar track */
-.container::-webkit-scrollbar-track {
+.patientcontainer::-webkit-scrollbar-track {
     background-color: #f5f5f5;
 }

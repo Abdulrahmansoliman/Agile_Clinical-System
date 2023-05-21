@@ -1,5 +1,6 @@
 import PatientCard from "./PatientCard";
-//import "./styles/AointmentList.css";
+import AddPatientForm from "./AddPatientForm";
+import "./styles/PatientList.css";
 import { useState, useEffect } from "react";
 
 type patients = {
@@ -13,6 +14,7 @@ type patients = {
 
 function PatientList() {
   const [patients, setPatients] = useState<patients[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/patients", { method: "GET" })
@@ -29,11 +31,30 @@ function PatientList() {
       .catch((error) => console.error("alooooooooo", error.message));
   }, []);
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const filteredpatient = patients.filter((patient) =>
+    patient.first_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
-      <h1 className="appointment-list-h1">Patient List</h1>
-      <div className="appointment-list">
-        {patients.map((patients, index) => (
+      <div className="patientheader">
+        <h1 className="appointment-list-h1">Patient List</h1>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search items..."
+        />
+        <div className="buttons">
+          <AddPatientForm />
+        </div>
+      </div>
+      <div className="patient-list">
+        {filteredpatient.map((patients, index) => (
           <PatientCard
             key={index}
             id={patients.id}
