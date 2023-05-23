@@ -9,7 +9,7 @@ class ReportAttribute(BaseDbModel, db.Model):
     type = db.Column(db.String(50), nullable=False)
 
     # backref to entity_attribute
-    entity_attributes = db.relationship('EntityAttribute', backref='report_attribute', lazy=True)
+
 
     def __init__(self, name, type):
         self.name = name

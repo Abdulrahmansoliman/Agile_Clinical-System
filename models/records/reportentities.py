@@ -1,6 +1,11 @@
 from models.init import db, BaseDbModel
 from models.records.reportattributes import ReportAttribute
-from models.records.entityattributes import EntityAttribute
+
+entity_attribute_association = db.Table('entity_attribute',
+    db.Column('report_entity_id', db.Integer, db.ForeignKey('report_entity.id'), primary_key=True),
+    db.Column('report_attribute_id', db.Integer, db.ForeignKey('report_attribute.id'), primary_key=True)
+)
+                            
 
 class ReportEntity(BaseDbModel, db.Model):
     __tablename__ = 'report_entity'
@@ -9,7 +14,7 @@ class ReportEntity(BaseDbModel, db.Model):
     name = db.Column(db.String(50), nullable=False)
    
     # backref to entity_attribute
-    entity_attributes = db.relationship('EntityAttribute', backref='report_entity', lazy=True)
+    attributes = db.relationship('ReportAttribute', secondary=entity_attribute_association, lazy='subquery', backref = 'report_entities')
 
     def __init__(self, name):
         self.name = name
@@ -21,8 +26,7 @@ class ReportEntity(BaseDbModel, db.Model):
         }
 
     def get_attributes(self):
-        EA = EntityAttribute.query.filter_by(report_entity_id=self.id).all()
-        return [ReportAttribute.query.get(ea.report_attribute_id) for ea in EA]
+        return [attribute.format() for attribute in self.attributes]
     
     def format_with_attributes(self):
         return {

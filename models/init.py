@@ -62,4 +62,3 @@ from models.clinicalitems.purchasedetails import PurchaseDetail
 from models.records.reportattributes import ReportAttribute
 from models.records.reportvalues import ReportValue
 from models.records.reportentities import ReportEntity
-from models.records.entityattributes import EntityAttribute
