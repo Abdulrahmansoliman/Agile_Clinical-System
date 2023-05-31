@@ -1,5 +1,5 @@
 from sentry_sdk import capture_exception
-
+from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -9,6 +9,22 @@ migrate = Migrate()
 
 
 class BaseDbModel:
+    
+    def get_all(self):
+        resources = self.model.query.filter_by(is_deleted=False).all()
+        return jsonify({
+            'success': True,
+            'data': [r.format() for r in resources]
+        }), 200
+
+    def get_by_id(self, resource_id):
+        self.validate_id(resource_id)
+        resource = self.model.query.get(resource_id)
+        return jsonify({
+        'success': True,
+        'data': resource.format()
+        }), 200    
+
 
     is_deleted = db.Column(db.Boolean, default=False)
     deleted_at = db.Column(db.DateTime, nullable=True)
