@@ -4,28 +4,15 @@ from models.clinicalitems.clinicalitems import ClinicItem
 
 from routes.clinicitems.utils import validate_clinicitem_id
 from request_errors import requires_body
+from routes.RouteFactory import RouteFactory
 
 clinicitems_blueprint = Blueprint('clinicitems', __name__)
 
+clinicitems_factory = RouteFactory(clinicitems_blueprint)
 
-@clinicitems_blueprint.route('/', methods=['GET'])
-def get_clinicitems():
-    clinicitems = ClinicItem.query.filter_by(is_deleted=False).all()
-    return jsonify({
-        'success': True,
-        'data': [c.format() for c in clinicitems]
-    }), 200
-
-
-@clinicitems_blueprint.route('/<int:clinicitem_id>', methods=['GET'])
-def get_clinicitem(clinicitem_id):
-    validate_clinicitem_id(clinicitem_id)
-    clinicitem = ClinicItem.query.get(clinicitem_id)
-
-    return jsonify({
-        "success": True,
-        "clinicitem": clinicitem.format()
-    }), 200
+clinicitems_factory.generate_get_all_route(ClinicItem)
+clinicitems_factory.get_one_route(ClinicItem)
+clinicitems_factory.create_one_route(ClinicItem)
 
 
 @clinicitems_blueprint.route('/', methods=['POST'])
