@@ -51,10 +51,6 @@ from models.users.doctors import Doctor
 from models.users.users import User
 from models.users.users import doctor_patient_association
 from models.records.records import Record
-from models.records.medicalhistories import MedicalHistory
-from models.records.medications import Medication
-from models.records.allergies import Allergy
-from models.records.labtests import LabTest
 from models.users.usertype   import UserType
 from models.links.links import Link
 from models.clinicalitems.purchase import Purchase

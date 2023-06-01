@@ -41,6 +41,7 @@ class Record(BaseDbModel, db.Model):
             'notes': self.notes,
             'doctor_id': self.doctor_id,
             'patient_profile_id': self.patient_profile_id,
+            'reports': self.get_reports()
         }
         return formatted_dict
 
@@ -53,26 +54,7 @@ class Record(BaseDbModel, db.Model):
             if entity not in distinct_entities:
                 distinct_entities.append(entity)
         return distinct_entities
-    
-    '''
-    def get_report_by_id(self, report_id):
-        out = dict
-        report_name = ReportEntity.query.get(report_id).name
-        # Return a formatted dictionary representation of the object without deleted flag
-        for report in self.reports:
-            if report.report_entity_id == report_id:
-                out[report_name].append(report.format())
-        if out[report_name] is None:
-            error_message = "Report with id {} not found in record with id {}".format(
-                report_id, self.id)
-            print(error_message)
-            abort(jsonify({
-                "status": 404,
-                "message": error_message
-            }))
-        else:
-            return out
-    '''
+
 
     def get_reports(self):
         # Return a formatted dictionary representation of the object without deleted flag

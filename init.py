@@ -28,6 +28,7 @@ with app.app_context():
     from routes.appointments.views import appointments_blueprint
     from routes.records.views import records_blueprint
     from routes.auth.views import auth_blueprint
+    from routes.reports.views import reports_blueprint
     
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
@@ -37,6 +38,7 @@ with app.app_context():
     app.register_blueprint(appointments_blueprint, url_prefix='/appointments')
     app.register_blueprint(records_blueprint, url_prefix='/records')
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    app.register_blueprint(reports_blueprint, url_prefix='/reports')
 # -----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
@@ -71,15 +73,6 @@ def index():
     return jsonify({
         'data': [d.format() for d in doctors] + [s.format() for s in secretaries]
     }), 200
-
-@app.route('/entities', methods=['GET'])
-def get_entities():
-    entities = ReportEntity.query.all()
-    return jsonify({
-        'success': True,
-        'data': [e.format_with_attributes() for e in entities]
-    }), 200
-
 
 
 if __name__ == '__main__':
