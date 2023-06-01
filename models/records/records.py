@@ -3,6 +3,8 @@ from collections import OrderedDict
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from models.init import db, BaseDbModel
+from flask import abort, jsonify
+from models.records.reportentities import ReportEntity
 
 
 
@@ -15,21 +17,14 @@ class Record(BaseDbModel, db.Model):
     marital_status = db.Column(db.String(50), nullable=True)
     notes = db.Column(db.String(500), nullable=True)
 
-    # Define relationship with reports
-    reports = db.relationship('ReportValue', backref = 'record', lazy = True)
-
-    # Define relationships with other tables
-    lab_tests = db.relationship('LabTest', backref='record', lazy=True)
-    medications = db.relationship('Medication', backref='record', lazy=True)
-    medical_histories = db.relationship(
-        'MedicalHistory', backref='record', lazy=True)
-    allergies = db.relationship('Allergy', backref='record', lazy=True)
+    # backref to report
+    reports = db.relationship('Report', lazy='subquery', backref = 'record')
 
     # Define foreign keys
     doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
     patient_profile_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
 
-    def __init__(self, date, marital_status=None, notes=None, doctor_id=None, patient_profile_id=None):
+    def __init__(self, date, patient_profile_id, marital_status=None, notes=None, doctor_id=None):
         # Initialize object with given values
         self.date = date
         self.marital_status = marital_status
@@ -49,16 +44,36 @@ class Record(BaseDbModel, db.Model):
         }
         return formatted_dict
 
-    def arr_format(self):
-        # Return a formatted dictionary representation of the object without deleted flag
-        formatted_dict = {
-            'lab_tests': [lt.format() for lt in self.lab_tests],
-            'medications': [m.format() for m in self.medications],
-            'medical_histories': [mh.format() for mh in self.medical_histories],
-            'allergies': [a.format() for a in self.allergies]
-        }
-        return formatted_dict
     
+    def get_reports_entities(self):
+        # Return a list containing the report entities of the record without duplicates
+        entities = [report.get_entities() for report in self.reports]
+        distinct_entities = []
+        for entity in entities:
+            if entity not in distinct_entities:
+                distinct_entities.append(entity)
+        return distinct_entities
+    
+    '''
+    def get_report_by_id(self, report_id):
+        out = dict
+        report_name = ReportEntity.query.get(report_id).name
+        # Return a formatted dictionary representation of the object without deleted flag
+        for report in self.reports:
+            if report.report_entity_id == report_id:
+                out[report_name].append(report.format())
+        if out[report_name] is None:
+            error_message = "Report with id {} not found in record with id {}".format(
+                report_id, self.id)
+            print(error_message)
+            abort(jsonify({
+                "status": 404,
+                "message": error_message
+            }))
+        else:
+            return out
+    '''
+
     def get_reports(self):
         # Return a formatted dictionary representation of the object without deleted flag
         values = [v.format() for v in self.reports]

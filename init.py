@@ -28,6 +28,7 @@ with app.app_context():
     from routes.appointments.views import appointments_blueprint
     from routes.records.views import records_blueprint
     from routes.auth.views import auth_blueprint
+    
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
@@ -42,36 +43,20 @@ with app.app_context():
 # in concurrently created by multiple gunicorn workers in build
 # time and it should be removed in production
 
-class DatabaseConnection:
-    __instance = None
-
-    @staticmethod
-    def get_instance():
-        if DatabaseConnection.__instance is None:
-            DatabaseConnection()
-        return DatabaseConnection.__instance
-
-    def __init__(self):
-        if DatabaseConnection.__instance is not None:
-            raise Exception("DatabaseConnection class is a Singleton! Use get_instance() method instead.")
-        else:
-            DatabaseConnection.__instance = self
-            self.db = SQLAlchemy()
-
-    def create_all(self):
-        self.db.create_all()
-        import db_initialization_script
-
-db = DatabaseConnection.get_instance().db
 
 @app.route('/init')
 def init():
+
+    db.drop_all()
+
     try:
         db.engine.execute(
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
     except:
         pass
-    DatabaseConnection.get_instance().create_all()
+    db.create_all()
+    import db_initialization_script
+
     return jsonify({
         'success': True
     }), 200
@@ -87,9 +72,17 @@ def index():
         'data': [d.format() for d in doctors] + [s.format() for s in secretaries]
     }), 200
 
+@app.route('/entities', methods=['GET'])
+def get_entities():
+    entities = ReportEntity.query.all()
+    return jsonify({
+        'success': True,
+        'data': [e.format_with_attributes() for e in entities]
+    }), 200
+
+
 
 if __name__ == '__main__':
     #DEBUG is SET to TRUE. CHANGE FOR PROD
     app.run(port=5000,debug=True)
     
-
