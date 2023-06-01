@@ -118,42 +118,11 @@ patient1.insert()
 
 
 # Create a new record object
-record = Record(date=date.today(), marital_status='Married',
+record = Record(date=date.today(), marital_status='Married', patient_profile_id=patient1.id,
                 notes='Patient is feeling much better now')
 
-# Add lab tests to the record
-lab_test1 = LabTest(name='Blood test', result='Normal', date=date.today())
-lab_test2 = LabTest(name='Urine test', result='Abnormal', date=date.today())
-record.lab_tests.append(lab_test1)
-record.lab_tests.append(lab_test2)
-
-# Add medications to the record
-medication1 = Medication(
-    date=date.today(), notes='Take one tablet every 6 hours')
-medication2 = Medication(
-    date=date.today(), notes='Apply cream to affected area twice daily')
-record.medications.append(medication1)
-record.medications.append(medication2)
-
-# Add medical histories to the record
-medical_history1 = MedicalHistory(
-    date=date(2010, 6, 15), notes='Diagnosed with asthma')
-medical_history2 = MedicalHistory(
-    date=date(2015, 8, 10), notes='Diagnosed with diabetes')
-record.medical_histories.append(medical_history1)
-record.medical_histories.append(medical_history2)
-
-# Add allergies to the record
-allergy1 = Allergy(name='Pollen', allergen='Tree pollen',
-                   description='Causes sneezing and itchy eyes')
-allergy2 = Allergy(name='Penicillin', allergen='Antibiotic',
-                   description='Causes rash and swelling')
-record.allergies.append(allergy1)
-record.allergies.append(allergy2)
-
 # Add the record to the database
-db.session.add(record)
-db.session.commit()
+record.insert()
 
 # Create purchase object
 purchase1 = Purchase(patient_id = patient1.id, secretary_id= secretary1.id)
@@ -169,6 +138,9 @@ purchasedetail2 = PurchaseDetail(clinic_item_id = clinicitem2.id, purchase_id = 
 purchasedetail1.insert()
 purchasedetail2.insert()
 
+
+# test if purchase is added to patient
+'''
 print('purchase1:')
 print(purchase1.format())
 print('purchase1 with items:')
@@ -177,3 +149,93 @@ print('purchasedetail1:')
 print(purchasedetail1.format())
 print('purchasedetail2:')
 print(purchasedetail2.format())
+'''
+
+# create report entites
+AllergyEntity = ReportEntity(name='Allergy')
+MedicationsEntity = ReportEntity(name='Medications')
+MedicalHistoryEntity = ReportEntity(name='Medical History')
+LabTesTsEntity = ReportEntity(name='Lab Tests')
+
+# add report entites to database
+AllergyEntity.insert()
+MedicationsEntity.insert()
+MedicalHistoryEntity.insert()
+LabTesTsEntity.insert()
+
+# create report attributes
+NameAttribute = ReportAttribute(name='Name', type='string')
+DateAttribute = ReportAttribute(name='Date', type='date')
+NotesAttribute = ReportAttribute(name='Notes', type='string')
+ResultAttribute = ReportAttribute(name='Result', type='string')
+AllergenAttribute = ReportAttribute(name='Allergen', type='string')
+DescriptionAttribute = ReportAttribute(name='Description', type='string')
+
+# add report attributes to database
+NameAttribute.insert()
+DateAttribute.insert()
+NotesAttribute.insert()
+ResultAttribute.insert()
+AllergenAttribute.insert()
+DescriptionAttribute.insert()
+
+# create entity attributes
+AllergyEntity.attributes.append(NameAttribute)
+AllergyEntity.attributes.append(AllergenAttribute)
+AllergyEntity.attributes.append(DescriptionAttribute)
+
+MedicationsEntity.attributes.append(NameAttribute)
+MedicationsEntity.attributes.append(DateAttribute)
+
+MedicalHistoryEntity.attributes.append(NameAttribute)
+MedicalHistoryEntity.attributes.append(DateAttribute)
+MedicalHistoryEntity.attributes.append(NotesAttribute)
+
+LabTesTsEntity.attributes.append(NameAttribute)
+LabTesTsEntity.attributes.append(DateAttribute)
+LabTesTsEntity.attributes.append(ResultAttribute)
+
+
+# create report
+allergyreport1 = Report(record_id = record.id, report_entity_id = AllergyEntity.id)
+allergyreport2 = Report(record_id = record.id, report_entity_id = AllergyEntity.id)
+medicationsreport1 = Report(record_id = record.id, report_entity_id = MedicationsEntity.id)
+'''
+medicalhistoryreport1 = Report(record_id = record.id, report_entity_id = MedicalHistoryEntity.id)
+labtestsreport1 = Report(record_id = record.id, report_entity_id = LabTesTsEntity.id)
+labtestsreport2 = Report(record_id = record.id, report_entity_id = LabTesTsEntity.id)
+'''
+
+# add reports to database
+allergyreport1.insert()
+allergyreport2.insert()
+medicationsreport1.insert()
+'''
+medicalhistoryreport1.insert()
+labtestsreport1.insert()
+labtestsreport2.insert()
+'''
+
+# create report values
+allergyreport1_value1 = ReportValue(report_id = allergyreport1.id, report_entity_id = AllergyEntity.id, report_attribute_id = NameAttribute.id, value = 'Pollen')
+allergyreport1_value2 = ReportValue(report_id = allergyreport1.id, report_entity_id = AllergyEntity.id, report_attribute_id = AllergenAttribute.id, value = 'Tree pollen')
+allergyreport1_value3 = ReportValue(report_id = allergyreport1.id, report_entity_id = AllergyEntity.id, report_attribute_id = DescriptionAttribute.id, value = 'Causes sneezing and itchy eyes')
+
+allergyreport2_value1 = ReportValue(report_id = allergyreport2.id, report_entity_id = AllergyEntity.id, report_attribute_id = NameAttribute.id, value = 'Penicillin')
+allergyreport2_value2 = ReportValue(report_id = allergyreport2.id, report_entity_id = AllergyEntity.id, report_attribute_id = AllergenAttribute.id, value = 'Antibiotic')
+allergyreport2_value3 = ReportValue(report_id = allergyreport2.id, report_entity_id = AllergyEntity.id, report_attribute_id = DescriptionAttribute.id, value = 'Causes rash and swelling')
+
+medicationsreport1_value1 = ReportValue(report_id = medicationsreport1.id, report_entity_id = MedicationsEntity.id, report_attribute_id = NameAttribute.id, value = 'Paracetamol')
+medicationsreport1_value2 = ReportValue(report_id = medicationsreport1.id, report_entity_id = MedicationsEntity.id, report_attribute_id = DateAttribute.id, value = '2020-01-01')
+
+# add report values to database
+allergyreport1_value1.insert()
+allergyreport1_value2.insert()
+allergyreport1_value3.insert()
+allergyreport2_value1.insert()
+allergyreport2_value2.insert()
+allergyreport2_value3.insert()
+medicationsreport1_value1.insert()
+medicationsreport1_value2.insert()
+
+

@@ -17,6 +17,7 @@ class Patient(BaseDbModel, db.Model):
     email = db.Column(db.String(120), nullable=False)
     appointments = db.relationship('Appointment', backref='patient', lazy=True)
     purchases = db.relationship('Purchase', backref='patient', lazy=True)
+    records = db.relationship('Record', backref='patient', lazy=True)
 
     def __init__(self, first_name, last_name, birth_date, phone_number, email):
         self.first_name = first_name
@@ -34,6 +35,8 @@ class Patient(BaseDbModel, db.Model):
             'birth_date': self.birth_date,
             'phone_number': self.phone_number,
             'email': self.email,
-            'appointments': [a.id for a in self.appointments]
+            'appointments': [a.id for a in self.appointments],
+            'records': [r.id for r in self.records],
+            'purchases': [p.id for p in self.purchases]
         }
         return formatted_dict
