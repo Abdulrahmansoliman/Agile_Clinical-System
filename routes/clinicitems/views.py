@@ -13,50 +13,17 @@ clinicitems_factory = RouteFactory(clinicitems_blueprint)
 clinicitems_factory.generate_get_all_route(ClinicItem)
 clinicitems_factory.get_one_route(ClinicItem)
 clinicitems_factory.create_one_route(ClinicItem)
+clinicitems_factory.delete_one_route(ClinicItem)
 
 
 @clinicitems_blueprint.route('/', methods=['POST'])
 @requires_body("[name] [quantity] [secretary_id]")
 def add_clinicitems(data):
-    clinicitem = ClinicItem(**data)
-    clinicitem.insert()
-
-    return jsonify({
-        "success": True,
-        "clinicitem": clinicitem.format()
-    }), 201
-
+    add = clinicitems_factory.create_one_route(ClinicItem)
+    return add (data)
 
 @clinicitems_blueprint.route('/<int:clinicitem_id>', methods=['PATCH'])
 @requires_body("[name] [quantity] [secretary_id]")
 def edit_clinicalitems(data, clinicitem_id):
-    print(data)
-    validate_clinicitem_id(clinicitem_id)
-
-    clinicitem = ClinicItem.query.get(clinicitem_id)
-
-    clinicitem.name = data['name']
-    clinicitem.quantity = data['quantity']
-    clinicitem.secretary_id = data['secretary_id']
-
-    clinicitem.update()
-
-    return jsonify({
-        "suceess": True,
-        "clinicitem": clinicitem.format(),
-    }), 200
-
-
-@clinicitems_blueprint.route('/<int:clinicitem_id>', methods=['DELETE'])
-def delete_clinicitem(clinicitem_id):
-
-    validate_clinicitem_id(clinicitem_id)
-
-    clinicitem = ClinicItem.query.get(clinicitem_id)
-
-    clinicitem.delete()
-
-    return jsonify({
-        "success": True,
-        "item_deleted": clinicitem.format()
-    }), 200
+    update = clinicitems_factory.update_one_route(ClinicItem, clinicitem_id)
+    return update(data)

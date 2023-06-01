@@ -96,6 +96,15 @@ print(doctor1.deleted_at)
 
 doctor1.insert()
 '''
+# add appointments to database
+a = Appointment(patient_id= 1,
+    doctor_id= 3,
+    secretary_id= 6,
+                start_time=datetime(1985, 1, 1),
+    notes= "patrikos"
+)
+
+a.insert()
 # add secretaries to database
 secretary1.insert()
 secretary2.insert()

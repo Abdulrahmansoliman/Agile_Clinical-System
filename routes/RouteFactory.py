@@ -9,8 +9,6 @@ class RouteFactory:
     def __init__(self, blueprint):
         self.blueprint = blueprint
             
-        
-        self.blueprint = blueprint
     def validate_item(self, model, item_id):
         item = model.query.get(item_id)
         if item is None or item.is_deleted:
