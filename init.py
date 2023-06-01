@@ -28,8 +28,6 @@ with app.app_context():
     from routes.appointments.views import appointments_blueprint
     from routes.records.views import records_blueprint
     from routes.auth.views import auth_blueprint
-    from routes.reports.views import reports_blueprint
-    
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
@@ -38,27 +36,42 @@ with app.app_context():
     app.register_blueprint(appointments_blueprint, url_prefix='/appointments')
     app.register_blueprint(records_blueprint, url_prefix='/records')
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
-    app.register_blueprint(reports_blueprint, url_prefix='/reports')
 # -----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
 # in concurrently created by multiple gunicorn workers in build
 # time and it should be removed in production
 
+class DatabaseConnection:
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        if DatabaseConnection.__instance is None:
+            DatabaseConnection()
+        return DatabaseConnection.__instance
+
+    def __init__(self):
+        if DatabaseConnection.__instance is not None:
+            raise Exception("DatabaseConnection class is a Singleton! Use get_instance() method instead.")
+        else:
+            DatabaseConnection.__instance = self
+            self.db = SQLAlchemy()
+
+    def create_all(self):
+        self.db.create_all()
+        import db_initialization_script
+
+db = DatabaseConnection.get_instance().db
 
 @app.route('/init')
 def init():
-
-    db.drop_all()
-
     try:
         db.engine.execute(
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
     except:
         pass
-    db.create_all()
-    import db_initialization_script
-
+    DatabaseConnection.get_instance().create_all()
     return jsonify({
         'success': True
     }), 200
