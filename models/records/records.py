@@ -45,7 +45,6 @@ class Record(BaseDbModel, db.Model):
         }
         return formatted_dict
 
-    
     def get_reports_entities(self):
         # Return a list containing the report entities of the record without duplicates
         entities = [report.get_entities() for report in self.reports]
@@ -60,3 +59,9 @@ class Record(BaseDbModel, db.Model):
         # Return a formatted dictionary representation of the object without deleted flag
         values = [v.format() for v in self.reports]
         return values
+
+    def delete(self):
+        # delete all reports of the record
+        for report in self.reports:
+            report.delete()
+        return super().delete()

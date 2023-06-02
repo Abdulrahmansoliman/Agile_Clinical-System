@@ -33,3 +33,10 @@ class Report(BaseDbModel, db.Model):
             'entity_id': self.report_entity_id,
             'entity_name': ReportEntity.query.get(self.report_entity_id).name,
         }
+
+    def delete(self):
+        # delete all values
+        for value in self.values:
+            value.delete()
+        return super().delete()
+        

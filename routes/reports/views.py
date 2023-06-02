@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, abort
 from request_errors import requires_body
 from models.init import *
-from routes.records.utils import validate_report_id
+from routes.records.utils import validate_report_id, add_report
 
 reports_blueprint = Blueprint('reports', __name__)
 
@@ -15,6 +15,17 @@ def get_reports():
         'data': formatted_reports
     }), 200
 
+
+@reports_blueprint.route('/', methods=['POST'])
+@requires_body("[record_id] [report_entity_id] [values]")
+def add_report_route(data):
+    report = add_report(data)
+    return jsonify({
+        "sucess": True,
+        "data": report.format()
+    }), 200
+
+
 @reports_blueprint.route('/entities', methods=['GET'])
 def get_entities():
     entities = ReportEntity.query.all()
@@ -22,6 +33,7 @@ def get_entities():
         'success': True,
         'data': [e.format_with_attributes() for e in entities]
     }), 200
+
 
 @reports_blueprint.route('/entities', methods=['POST'])
 @requires_body("[name] [attributes]")
@@ -32,13 +44,10 @@ def add_entity(data):
     entity = ReportEntity(**entity_data)
     entity.insert()
     for attribute in data['attributes']:
-        attribute_data = {
-            "report_entity_id": entity.id,
-            "name": attribute['name'],
-            "type": attribute['type']
-        }
-        attribute = ReportAttribute(**attribute_data)
-        attribute.insert()
+        attribute_id = attribute['id']
+        attribute = ReportAttribute.query.get(attribute_id)
+        entity.attributes.append(attribute)
+        
     return jsonify({
         'success': True,
         'data': entity.format_with_attributes()

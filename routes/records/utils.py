@@ -14,6 +14,31 @@ def validate_record_id(record_id):
             "message": error_message
         }))
 
+def update_report(old_report, report):
+    for value in report['values']:
+        old_value = ReportValue.query.get(old_report['id'])
+        old_value.value = value['value']
+
+def add_report(report, record_id):
+    validate_report_entity_id(report['report_entity_id'])
+    report_data = {
+        "record_id": record_id,
+        "report_entity_id": report['report_entity_id']
+    }
+    report_obj = Report(**report_data)
+    report_obj.insert()
+    for value in report['values']:
+        validate_report_attribute_id(value['report_attribute_id'])
+        report_value_data = {
+            "report_id": report_obj.id,
+            "report_entity_id": report['report_entity_id'],
+            "report_attribute_id": value['report_attribute_id'],
+            "value": value['value']
+        }
+        report_value = ReportValue(**report_value_data)
+        report_value.insert()
+    return report_obj
+
 def validate_report_id(report_id):
     report = Report.query.get(report_id)
     if report is None or report.is_deleted == True:

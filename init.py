@@ -28,6 +28,7 @@ with app.app_context():
     from routes.appointments.views import appointments_blueprint
     from routes.records.views import records_blueprint
     from routes.auth.views import auth_blueprint
+    from routes.reports.views import reports_blueprint
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
@@ -36,6 +37,7 @@ with app.app_context():
     app.register_blueprint(appointments_blueprint, url_prefix='/appointments')
     app.register_blueprint(records_blueprint, url_prefix='/records')
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    app.register_blueprint(reports_blueprint, url_prefix='/reports')
 # -----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
@@ -79,7 +81,6 @@ def init():
 
 @app.route('/')
 def index():
-
     doctors = Doctor.query.all()
     secretaries = Secretary.query.all()
 
