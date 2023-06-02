@@ -61,23 +61,7 @@ def add_record(data):
     record.insert()
     
     for report in data['reports']:
-        validate_report_entity_id(report['report_entity_id'])
-        report_data = {
-            "record_id": record.id,
-            "report_entity_id": report['report_entity_id']
-        }
-        report_obj = Report(**report_data)
-        report_obj.insert()
-        for value in report['values']:
-            validate_report_attribute_id(value['report_attribute_id'])
-            report_value_data = {
-                "report_id": report_obj.id,
-                "report_entity_id": report['report_entity_id'],
-                "report_attribute_id": value['report_attribute_id'],
-                "value": value['value']
-            }
-            report_value = ReportValue(**report_value_data)
-            report_value.insert()
+        add_report(report, record.id)
 
     return jsonify({
         'success': True,
@@ -121,7 +105,7 @@ def edit_record(data,record_id):
     
 def update_report(old_report, report):
     for value in report['values']:
-        old_value = ReportValue.query.get(value['id'])
+        old_value = ReportValue.query.get(old_report['id'])
         old_value.value = value['value']
         
 
