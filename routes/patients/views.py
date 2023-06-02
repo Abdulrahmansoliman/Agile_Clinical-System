@@ -10,7 +10,7 @@ patients_blueprint = Blueprint('patients', __name__)
 
 @patients_blueprint.route('/', methods=['GET'])
 def get_patients():
-    patients = Patient.query.all()
+    patients = Patient.query.filter_by(is_deleted=False).all()
     return jsonify({
         'success': True,
         'data': [p.format() for p in patients],
