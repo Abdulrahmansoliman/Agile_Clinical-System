@@ -59,3 +59,5 @@ from models.records.reportattributes import ReportAttribute
 from models.records.reportvalues import ReportValue
 from models.records.reportentities import ReportEntity
 from models.records.reports import Report
+from models.users.address import Address
+from models.users.addresstypes import AddressType

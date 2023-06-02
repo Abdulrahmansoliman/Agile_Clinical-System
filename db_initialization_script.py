@@ -230,3 +230,98 @@ medicationsreport1_value1.insert()
 medicationsreport1_value2.insert()
 
 
+# create instances of Address Type class (self, name)
+address_type1 = AddressType(name='Country')
+address_type2 = AddressType(name='City')
+address_type3 = AddressType(name='Street')
+
+# add address types to database
+address_types = [address_type1, address_type2, address_type3]
+for address_type in address_types:
+    address_type.insert()
+
+# Creating instances of Address class (self, name, address_type_id, parent_id)
+# countries with parent_id = None
+country1 = Address(name='United Kingdom', address_type_id=address_type1.id, parent_id=None)
+country2 = Address(name='United States', address_type_id=address_type1.id, parent_id=None)
+country3 = Address(name='France', address_type_id=address_type1.id, parent_id=None)
+country4 = Address(name='Germany', address_type_id=address_type1.id, parent_id=None)
+country5 = Address(name='Italy', address_type_id=address_type1.id, parent_id=None)
+
+# add countries to database
+countries = [country1, country2, country3, country4, country5]
+for country in countries:
+    country.insert()
+
+# cities with parent_id = country
+city1 = Address(name='London', address_type_id=address_type2.id, parent_id=country1.id)
+city2 = Address(name='New York', address_type_id=address_type2.id, parent_id=country2.id)
+city3 = Address(name='Paris', address_type_id=address_type2.id, parent_id=country3.id)
+city4 = Address(name='Berlin', address_type_id=address_type2.id, parent_id=country4.id)
+city5 = Address(name='Rome', address_type_id=address_type2.id, parent_id=country5.id)
+
+# more cities with parent_id = country
+city6 = Address(name='Manchester', address_type_id=address_type2.id, parent_id=country1.id)
+city7 = Address(name='Liverpool', address_type_id=address_type2.id, parent_id=country1.id)
+city8 = Address(name='Birmingham', address_type_id=address_type2.id, parent_id=country1.id)
+city9 = Address(name='Leeds', address_type_id=address_type2.id, parent_id=country1.id)
+city10 = Address(name='Sheffield', address_type_id=address_type2.id, parent_id=country1.id)
+
+# more cities with parent_id = country
+city11 = Address(name='Los Angeles', address_type_id=address_type2.id, parent_id=country2.id)
+city12 = Address(name='Chicago', address_type_id=address_type2.id, parent_id=country2.id)
+city13 = Address(name='Houston', address_type_id=address_type2.id, parent_id=country2.id)
+city14 = Address(name='Phoenix', address_type_id=address_type2.id, parent_id=country2.id)
+city15 = Address(name='Philadelphia', address_type_id=address_type2.id, parent_id=country2.id)
+
+# more cities with parent_id = country
+city16 = Address(name='Marseille', address_type_id=address_type2.id, parent_id=country3.id)
+city17 = Address(name='Lyon', address_type_id=address_type2.id, parent_id=country3.id)
+city18 = Address(name='Toulouse', address_type_id=address_type2.id, parent_id=country3.id)
+city19 = Address(name='Nice', address_type_id=address_type2.id, parent_id=country3.id)
+city20 = Address(name='Nantes', address_type_id=address_type2.id, parent_id=country3.id)
+
+# more cities with parent_id = country
+city21 = Address(name='Hamburg', address_type_id=address_type2.id, parent_id=country4.id)
+city22 = Address(name='Munich', address_type_id=address_type2.id, parent_id=country4.id)
+city23 = Address(name='Cologne', address_type_id=address_type2.id, parent_id=country4.id)
+city24 = Address(name='Frankfurt', address_type_id=address_type2.id, parent_id=country4.id)
+city25 = Address(name='Stuttgart', address_type_id=address_type2.id, parent_id=country4.id)
+
+# more cities with parent_id = country
+city26 = Address(name='Milan', address_type_id=address_type2.id, parent_id=country5.id)
+city27 = Address(name='Naples', address_type_id=address_type2.id, parent_id=country5.id)
+city28 = Address(name='Turin', address_type_id=address_type2.id, parent_id=country5.id)
+city29 = Address(name='Palermo', address_type_id=address_type2.id, parent_id=country5.id)
+city30 = Address(name='Genoa', address_type_id=address_type2.id, parent_id=country5.id)
+
+# add cities to database
+cities = [city1, city2, city3, city4, city5, city6, city7, city8, city9, city10,
+            city11, city12, city13, city14, city15, city16, city17, city18, city19, city20,
+            city21, city22, city23, city24, city25, city26, city27, city28, city29, city30]
+
+for city in cities:
+    city.insert()
+
+# streets with parent_id = city
+street1 = Address(name='Baker Street', address_type_id=address_type3.id, parent_id=city1.id)
+street2 = Address(name='Oxford Street', address_type_id=address_type3.id, parent_id=city1.id)
+street3 = Address(name='Regent Street', address_type_id=address_type3.id, parent_id=city1.id)
+street4 = Address(name='Bond Street', address_type_id=address_type3.id, parent_id=city1.id)
+street5 = Address(name='Park Avenue', address_type_id=address_type3.id, parent_id=city2.id)
+
+# more streets with parent_id = city
+street6 = Address(name='Broadway', address_type_id=address_type3.id, parent_id=city2.id)
+street7 = Address(name='Madison Avenue', address_type_id=address_type3.id, parent_id=city2.id)
+street8 = Address(name='Fifth Avenue', address_type_id=address_type3.id, parent_id=city2.id)
+street9 = Address(name='Wall Street', address_type_id=address_type3.id, parent_id=city2.id)
+street10 = Address(name='Champs-Elysees', address_type_id=address_type3.id, parent_id=city3.id)
+
+# add streets to database
+streets = [street1, street2, street3, street4, street5, street6, street7, street8, street9, street10]
+for street in streets:
+    street.insert()
+
+print(Address.query.get(street1.id).get_full_address())
+print(Address.query.get(street1.id).get_address_string())
+
