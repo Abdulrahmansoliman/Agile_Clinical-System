@@ -43,6 +43,29 @@ with app.app_context():
 # this endpoint avoids errors that arise when the database
 # in concurrently created by multiple gunicorn workers in build
 # time and it should be removed in production
+class DatabaseConnection:
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        if DatabaseConnection.__instance is None:
+            DatabaseConnection()
+        return DatabaseConnection.__instance
+
+    def _init_(self):
+        if DatabaseConnection.__instance is not None:
+            raise Exception("DatabaseConnection class is a Singleton! Use get_instance() method instead.")
+        else:
+            DatabaseConnection.__instance = self
+            self.db = SQLAlchemy()
+
+    def create_all(self):
+        self.db.create_all()
+        import db_initialization_script
+
+db = DatabaseConnection.get_instance().db
+
+
 
 @app.route('/init')
 def init():
@@ -54,7 +77,7 @@ def init():
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
     except:
         pass
-    db.create_all()
+    DatabaseConnection.get_instance().create_all()
     import db_initialization_script
 
     return jsonify({
