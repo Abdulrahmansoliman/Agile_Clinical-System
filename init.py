@@ -52,7 +52,7 @@ class DatabaseConnection:
             DatabaseConnection()
         return DatabaseConnection.__instance
 
-    def _init_(self):
+    def __init__(self):
         if DatabaseConnection.__instance is not None:
             raise Exception("DatabaseConnection class is a Singleton! Use get_instance() method instead.")
         else:
@@ -65,21 +65,14 @@ class DatabaseConnection:
 
 db = DatabaseConnection.get_instance().db
 
-
-
 @app.route('/init')
 def init():
-
-    db.drop_all()
-
     try:
         db.engine.execute(
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
     except:
         pass
     DatabaseConnection.get_instance().create_all()
-    import db_initialization_script
-
     return jsonify({
         'success': True
     }), 200
