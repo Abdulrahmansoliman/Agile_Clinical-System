@@ -7,8 +7,9 @@
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
-    width: fit-content;
+    width: 50rem;
     border-radius: 4px;
+    justify-content: space-between;
 }
 
 .record-card.expanded {
@@ -27,6 +28,7 @@
     background-color: #d8d8d8;
     border-radius: 4px;
     padding: 0.5rem;
+    width: 30%;
 }
 
 .record-card button {

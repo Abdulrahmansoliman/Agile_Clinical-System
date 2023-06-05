@@ -11,22 +11,22 @@ type Profile = {
   birth_date: string;
   email: string;
   phone_number: string;
-};
-
-type Record = {
-  record_date: string;
-  notes: string;
+  records: number[];
 };
 
 const PatientInfo: React.FC = () => {
   const { id } = useParams();
   const [patientInfo, setPatientInfo] = useState<Profile | null>(null);
+  const [recordsList, setRecordList] = useState<number[]>([]);
+  console.log("i am in patient info");
 
   useEffect(() => {
     // Fetch patient information
     fetch(`http://127.0.0.1:5000/patients/${id}`)
       .then((response) => response.json())
-      .then((data) => setPatientInfo(data.data))
+      .then((data) => {
+        setPatientInfo(data.data);
+      })
       .catch((error) =>
         console.error("Error fetching patient information:", error)
       );
@@ -41,9 +41,10 @@ const PatientInfo: React.FC = () => {
       <h1>Patient Information</h1>
       <div className="container">
         <InfoCard patientInfo={patientInfo} />
-        {/* Pass only the id to the RecordList component
-         */}
-        <RecordList id={patientInfo.id} />
+        <RecordList
+          patientID={patientInfo.id}
+          recordsIDs={patientInfo.records}
+        />
       </div>
     </div>
   );

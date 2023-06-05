@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import "./styles/RecordForm.css";
 
 interface ReportFormProps {
@@ -37,28 +36,7 @@ interface RecordFormData {
 
 const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
   const [showRecordForm, setShowRecordForm] = useState(false);
-  const [newEntity, setNewEntity] = useState(false);
 
-  function renderEntities(entityId: number) {
-    const entity = entities.find((entity: any) => entity.id === entityId);
-    if (entity) {
-      return (
-        <div>
-          <label>{entity.name}</label>
-          {entity.attributes.map((a: any) => {
-            return (
-              <div>
-                <label>{a.name}</label>
-                <input type="text" />
-              </div>
-            );
-          })}
-        </div>
-      );
-    } else {
-      return null; // or you can display an error message
-    }
-  }
   const form = useForm<RecordFormData>({
     defaultValues: {
       id: 0,
@@ -186,7 +164,7 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
               <div>
                 {fields.map((field, index) => (
                   <div key={field.id}>
-                    <label>Select entity_name</label>
+                    <label>Select report</label>
                     <select
                       {...register(`reports.${index}.entity_name` as const, {
                         required: "Please select an entity",
@@ -254,7 +232,6 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
               </div>
             </div>
           </form>
-          <DevTool control={control} />
         </div>
       )}
     </div>
