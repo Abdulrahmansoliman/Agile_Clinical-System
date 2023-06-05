@@ -9,23 +9,17 @@ interface ReportFormProps {
 
 interface ReportValues {
   report_attribute_id: number;
-  id: number;
   report_entity_id: number;
-  report_id: number;
   value: string;
-  value_name: string;
 }
 
 interface Report {
   entity_name: string;
-  id: number;
-  record_id: number;
   report_entity_id: number;
   values: ReportValues[];
 }
 
 interface RecordFormData {
-  id: number;
   notes: string;
   patient_profile_id: number;
   date: string;
@@ -39,11 +33,10 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
 
   const form = useForm<RecordFormData>({
     defaultValues: {
-      id: 0,
       notes: "",
       patient_profile_id: id,
-      date: "",
-      doctor_id: 0,
+      date: new Date().toISOString().split("T")[0],
+      doctor_id: 3,
       marital_status: "",
       reports: [],
     },
@@ -61,20 +54,20 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
   };
 
   const handleAddReport = (fieldID: number, entityId: number) => {
-    console.log("Field ID: ", fieldID);
-    console.log("Fields: ", fields);
+    fields[fieldID].report_entity_id = entityId;
+    console.log("Fields: ", fields[fieldID].report_entity_id);
+
+    console.log(entities[entityId - 1].attributes);
+
     while (fields[fieldID].values.length > 0) {
       fields[fieldID].values.pop();
     }
-    console.log(entities[entityId - 1].attributes);
+
     entities[entityId - 1].attributes.map((a: any) => {
       fields[fieldID].values.push({
         report_attribute_id: a.id,
-        id: 0,
-        report_entity_id: entityId - 1,
-        report_id: 0,
+        report_entity_id: entityId,
         value: "",
-        value_name: "",
       });
     });
     console.log("Fields: ", fields[fieldID].values);
@@ -89,6 +82,11 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
   const onSubmit = (data: RecordFormData) => {
     console.log("Record Form Data: ", form.getValues());
     setShowRecordForm(!showRecordForm);
+    form.getValues().reports.map((report: any) => {
+      let newid = report.values[0].report_entity_id;
+      report.report_entity_id = newid;
+    });
+
     fetch("http://localhost:5000/records", {
       method: "POST",
       mode: "no-cors",
@@ -113,8 +111,6 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
                 onClick={() =>
                   append({
                     entity_name: "",
-                    id: 0,
-                    record_id: 0,
                     report_entity_id: 0,
                     values: [],
                   })
@@ -171,11 +167,10 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
                       })}
                       onChange={(e) => {
                         handleAddReport(index, parseInt(e.target.value));
+
                         append({
                           entity_name: "",
-                          id: 0,
-                          record_id: 0,
-                          report_entity_id: 0,
+                          report_entity_id: parseInt(e.target.value),
                           values: [],
                         });
                         remove(fields.length);
@@ -192,14 +187,14 @@ const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
                       Remove
                     </button>
                     {fields[index].values.map((value, index2) => (
-                      <div key={value.id}>
+                      <div key={index2}>
                         <label>
                           {
                             entities.find(
                               (entity: any) =>
                                 entities.indexOf(entity) ===
                                 value.report_entity_id
-                            ).attributes[index2].name
+                            )?.attributes[index2]?.name
                           }
                         </label>
                         <input
