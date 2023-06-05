@@ -1,62 +1,35 @@
 import React, { useState } from "react";
-import {
-  LoginForm,
-  ForgotPasswordForm,
-  RegisterForm,
-} from "../components/forms";
+import { LoginemailForm, LoginusernameForm } from "../components/forms";
 import "./styles/loginpage.css";
 
 enum LoginState {
-  LOGIN,
-  FORGOT_PASSWORD,
-  REGISTER,
+  email,
+  username,
 }
 
 const LoginPage = () => {
-  const [loginState, setLoginState] = useState(LoginState.LOGIN);
+  const [loginState, setLoginState] = useState(LoginState.email);
 
-  const handleForgotPasswordClick = () => {
-    setLoginState(LoginState.FORGOT_PASSWORD);
+  const handleusernameClick = () => {
+    setLoginState(LoginState.username);
   };
 
-  const handleRegisterClick = () => {
-    setLoginState(LoginState.REGISTER);
-  };
-
-  const handleBackToLoginClick = () => {
-    setLoginState(LoginState.LOGIN);
+  const handleBackToemailClick = () => {
+    setLoginState(LoginState.email);
   };
 
   return (
     <div className="login-page">
       <div className="login-form">
-        {loginState === LoginState.LOGIN && (
-          <LoginForm
-            onForgotPasswordClick={handleForgotPasswordClick}
-            onRegisterClick={handleRegisterClick}
-            onFormSubmit={(formData: { email: string; password: string }) => {
-              throw new Error("Function not implemented.");
-            }}
-          />
+        {loginState === LoginState.email && (
+          <LoginemailForm onusernameClick={handleusernameClick} />
         )}
-        {loginState === LoginState.FORGOT_PASSWORD && (
-          <ForgotPasswordForm
-            onBackToLoginClick={handleBackToLoginClick}
-            onFormSubmit={(formData: { email: string }) => {
-              throw new Error("Function not implemented.");
-            }}
-          />
-        )}
-        {loginState === LoginState.REGISTER && (
-          <RegisterForm
-            onBackToLoginClick={handleBackToLoginClick}
-            onFormSubmit={(formData: { email: string; password: string }) => {
-              throw new Error("Function not implemented.");
-            }}
-          />
+        {loginState === LoginState.username && (
+          <LoginusernameForm onBackToemailClick={handleBackToemailClick} />
         )}
       </div>
     </div>
   );
 };
+
 export default LoginPage;

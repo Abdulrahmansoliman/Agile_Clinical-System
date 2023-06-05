@@ -29,7 +29,6 @@ with app.app_context():
     from routes.records.views import records_blueprint
     from routes.auth.views import auth_blueprint
     from routes.reports.views import reports_blueprint
-    
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
@@ -45,7 +44,7 @@ with app.app_context():
 # in concurrently created by multiple gunicorn workers in build
 # time and it should be removed in production
 
-class DatabaseConnection:
+'''class DatabaseConnection:
     __instance = None
 
     @staticmethod
@@ -83,8 +82,25 @@ def init():
     return jsonify({
         'success': True
     }), 200
+'''
 
 
+@app.route('/init')
+def init():
+
+    db.drop_all()
+
+    try:
+        db.engine.execute(
+            "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
+    except:
+        pass
+    db.create_all()
+    import db_initialization_script
+
+    return jsonify({
+        'success': True
+    }), 200
 
 
 @app.route('/')
