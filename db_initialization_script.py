@@ -1,5 +1,6 @@
 from datetime import *
 from models.init import *
+from models.records.reportentities import ReportEntity
 
 print('starting db initialization script')
 
@@ -258,7 +259,7 @@ allergyreport2_value2.insert()
 allergyreport2_value3.insert()
 medicationsreport1_value1.insert()
 medicationsreport1_value2.insert()
-<<<<<<< HEAD
+
 
 
 # create instances of Address Type class (self, name)
@@ -356,5 +357,3 @@ for street in streets:
 print(Address.query.get(street1.id).get_full_address())
 print(Address.query.get(street1.id).get_address_string())
 
-=======
->>>>>>> origin/CLIN-66-Records-page
