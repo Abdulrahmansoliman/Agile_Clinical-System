@@ -23,9 +23,6 @@ const Menu: React.FC<MenuProps> = ({ onMenuClick }) => {
         <Link to="/addpatient" className="menu-item">
           patient
         </Link>
-        <li className="menu-item">
-          <input className="search-input" type="text" placeholder="Search" />
-        </li>
       </ul>
     </nav>
   );
