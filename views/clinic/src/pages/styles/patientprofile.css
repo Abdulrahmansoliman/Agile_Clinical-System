@@ -1,0 +1,17 @@
+.patient-profile {
+    margin: 2rem;
+}
+
+.patient-profile h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.container {
+    margin: 0 auto;
+    text-align: center;
+    overflow-y: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}

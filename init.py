@@ -29,6 +29,7 @@ with app.app_context():
     from routes.records.views import records_blueprint
     from routes.auth.views import auth_blueprint
     from routes.reports.views import reports_blueprint
+    
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
@@ -43,6 +44,7 @@ with app.app_context():
 # this endpoint avoids errors that arise when the database
 # in concurrently created by multiple gunicorn workers in build
 # time and it should be removed in production
+
 class DatabaseConnection:
     __instance = None
 
@@ -67,12 +69,17 @@ db = DatabaseConnection.get_instance().db
 
 @app.route('/init')
 def init():
+
+    db.drop_all()
+
     try:
         db.engine.execute(
             "SELECT 'drop table ' || name || ';' FROM sqlite_master WHERE type = 'table';").fetchall()
     except:
         pass
-    DatabaseConnection.get_instance().create_all()
+    db.create_all()
+    import db_initialization_script
+
     return jsonify({
         'success': True
     }), 200
@@ -91,6 +98,5 @@ def index():
 
 
 if __name__ == '__main__':
-    #DEBUG is SET to TRUE. CHANGE FOR PROD
-    app.run(port=5000,debug=True)
-    
+    # DEBUG is SET to TRUE. CHANGE FOR PROD
+    app.run(port=5000, debug=True)

@@ -1,0 +1,32 @@
+.item-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    justify-items: center;
+    width: 15rem;
+    height: 20rem;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.25);
+    margin: 0;
+    align-items: center;
+
+}
+
+.item-card button {
+
+    bottom: 0;
+    width: 50%;
+    height: 3rem;
+    padding: 0.5rem;
+    background-color: #b40d26d5;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 1rem;
+}

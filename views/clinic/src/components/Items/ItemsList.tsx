@@ -1,6 +1,8 @@
+import React, { useState, useEffect } from "react";
 import ItemCard from "./ItemCard";
-//import "./styles/AointmentList.css";
-import { useState, useEffect } from "react";
+import RegisterItem from "./ItemForm";
+import PurchaseItem from "./PurchaseItem";
+import "./styles/Itemlist.css";
 
 type Items = {
   id: number;
@@ -11,27 +13,42 @@ type Items = {
 
 function ItemsList() {
   const [items, setItems] = useState<Items[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/clinicitems", { method: "GET" })
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-
+      .then((response) => response.json())
       .then((data) => {
-        console.log(data.data);
-
         setItems(data.data);
       })
-      .catch((error) => console.error("alooooooooo", error.message));
+      .catch((error) => console.error("Error fetching items:", error));
   }, []);
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const filteredItems = items.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div>
-      <h1 className="appointment-list-h1">Items List</h1>
-      <div className="appointment-list">
-        {items.map((item, index) => (
+      <div className="itemheader">
+        <h1>Items List</h1>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search items..."
+        />
+        <div className="buttons">
+          <RegisterItem />
+          <PurchaseItem />
+        </div>
+      </div>
+      <div className="Item-list">
+        {filteredItems.map((item, index) => (
           <ItemCard
             key={index}
             name={item.name}
@@ -44,4 +61,5 @@ function ItemsList() {
     </div>
   );
 }
+
 export default ItemsList;

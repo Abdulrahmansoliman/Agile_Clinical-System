@@ -4,7 +4,7 @@ import "../styles/itemform.css";
 const ItemForm = () => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState("");
-
+  const [isNewItem, setIsNewItem] = useState(false);
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
@@ -37,35 +37,43 @@ const ItemForm = () => {
   };
 
   return (
-    <div className="form">
-      <form onSubmit={handleSubmit}>
-        <p>Add New item</p>
-        <label>
-          Item name:
-          <input
-            name="itemName"
-            type="text"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            className="input"
-          />
-        </label>
-        <br />
-        <label>
-          Quantity:
-          <input
-            name="quantity"
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            className="input"
-          />
-        </label>
-        <br />
-        <button type="submit" className="button">
-          Register Item
-        </button>
-      </form>
+    <div>
+      <button onClick={() => setIsNewItem(!isNewItem)}>Add New Item</button>
+      {isNewItem && (
+        <div className="containerForm">
+          <form onSubmit={handleSubmit}>
+            <p>Add New item</p>
+            <label>
+              Item name:
+              <input
+                name="itemName"
+                type="text"
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                className="input"
+              />
+            </label>
+            <br />
+            <label>
+              Quantity:
+              <input
+                name="quantity"
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                className="input"
+              />
+            </label>
+            <br />
+            <button type="submit" className="button">
+              Register Item
+            </button>
+            <button className="button" onClick={() => setIsNewItem(false)}>
+              Cancel
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

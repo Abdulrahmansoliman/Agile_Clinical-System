@@ -8,6 +8,8 @@ const AddPatientForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
 
+  const [isNewPatient, setIsNewPatient] = useState(false);
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
@@ -43,60 +45,68 @@ const AddPatientForm = () => {
   };
 
   return (
-    <div className="form">
-      <form onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input
-            name="firstName"
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Last Name:
-          <input
-            name="lastName"
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Birth Date:
-          <input
-            name="birthDate"
-            type="date"
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Phone Number:
-          <input
-            name="phoneNumber"
-            type="text"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <br />
-        <button type="submit">Add Patient</button>
-      </form>
+    <div>
+      <button onClick={() => setIsNewPatient(!isNewPatient)}>
+        Add New Patient
+      </button>
+      {isNewPatient && (
+        <div className="containerForm">
+          <form onSubmit={handleSubmit}>
+            <label>
+              First Name:
+              <input
+                name="firstName"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Last Name:
+              <input
+                name="lastName"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Birth Date:
+              <input
+                name="birthDate"
+                type="date"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Phone Number:
+              <input
+                name="phoneNumber"
+                type="text"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Email:
+              <input
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </label>
+            <br />
+            <button type="submit">Add Patient</button>
+            <button onClick={() => setIsNewPatient(false)}>Cancel</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
