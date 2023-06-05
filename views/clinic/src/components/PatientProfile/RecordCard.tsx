@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Record } from "./RecordList";
+import { Record, entities } from "./RecordList";
 import "./styles/RecordCard.css";
 
 type RecordCardProps = {

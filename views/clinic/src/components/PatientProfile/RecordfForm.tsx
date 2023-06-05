@@ -3,8 +3,26 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import "./styles/RecordForm.css";
 
-interface RecordFormProps {
+interface ReportFormProps {
   id: number;
+  entities: any;
+}
+
+interface ReportValues {
+  report_attribute_id: number;
+  id: number;
+  report_entity_id: number;
+  report_id: number;
+  value: string;
+  value_name: string;
+}
+
+interface Report {
+  entity_name: string;
+  id: number;
+  record_id: number;
+  report_entity_id: number;
+  values: ReportValues[];
 }
 
 interface RecordFormData {
@@ -14,20 +32,33 @@ interface RecordFormData {
   date: string;
   doctor_id: number;
   marital_status: string;
-  lab_tests: {
-    test: string;
-    results: string;
-    date: string;
-  }[];
-  medications: {
-    med: string;
-    notes: string;
-  }[];
+  reports: Report[];
 }
 
-const RecordForm: React.FC<RecordFormProps> = ({ id }) => {
+const RecordForm: React.FC<ReportFormProps> = ({ id, entities }) => {
   const [showRecordForm, setShowRecordForm] = useState(false);
+  const [newEntity, setNewEntity] = useState(false);
 
+  function renderEntities(entityId: number) {
+    const entity = entities.find((entity: any) => entity.id === entityId);
+    if (entity) {
+      return (
+        <div>
+          <label>{entity.name}</label>
+          {entity.attributes.map((a: any) => {
+            return (
+              <div>
+                <label>{a.name}</label>
+                <input type="text" />
+              </div>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return null; // or you can display an error message
+    }
+  }
   const form = useForm<RecordFormData>({
     defaultValues: {
       id: 0,
@@ -36,43 +67,39 @@ const RecordForm: React.FC<RecordFormProps> = ({ id }) => {
       date: "",
       doctor_id: 0,
       marital_status: "",
-      lab_tests: [
-        {
-          test: "",
-          results: "",
-          date: "",
-        },
-      ],
-      medications: [
-        {
-          med: "",
-          notes: "",
-        },
-      ],
+      reports: [],
     },
   });
   const { register, control, handleSubmit, formState, reset } = form;
   const { errors, isSubmitSuccessful } = formState;
 
-  const {
-    fields: labtestField,
-    append: addLabTest,
-    remove: removeLabTest,
-  } = useFieldArray({
-    name: "lab_tests",
-    control,
-  });
-  const {
-    fields: medicationField,
-    append: addMedication,
-    remove: removeMedication,
-  } = useFieldArray({
-    name: "medications",
+  const { fields, append, remove } = useFieldArray({
+    name: "reports",
     control,
   });
 
   const handleAddRecord = () => {
     setShowRecordForm(!showRecordForm);
+  };
+
+  const handleAddReport = (fieldID: number, entityId: number) => {
+    console.log("Field ID: ", fieldID);
+    console.log("Fields: ", fields);
+    while (fields[fieldID].values.length > 0) {
+      fields[fieldID].values.pop();
+    }
+    console.log(entities[entityId - 1].attributes);
+    entities[entityId - 1].attributes.map((a: any) => {
+      fields[fieldID].values.push({
+        report_attribute_id: a.id,
+        id: 0,
+        report_entity_id: entityId - 1,
+        report_id: 0,
+        value: "",
+        value_name: "",
+      });
+    });
+    console.log("Fields: ", fields[fieldID].values);
   };
 
   useEffect(() => {
@@ -105,15 +132,17 @@ const RecordForm: React.FC<RecordFormProps> = ({ id }) => {
             <div>
               <button
                 type="button"
-                onClick={() => addLabTest({ test: "", results: "", date: "" })}
+                onClick={() =>
+                  append({
+                    entity_name: "",
+                    id: 0,
+                    record_id: 0,
+                    report_entity_id: 0,
+                    values: [],
+                  })
+                }
               >
-                Add test
-              </button>
-              <button
-                type="button"
-                onClick={() => addMedication({ med: "", notes: "" })}
-              >
-                Add med
+                Add Report
               </button>
             </div>
           </div>
@@ -152,65 +181,76 @@ const RecordForm: React.FC<RecordFormProps> = ({ id }) => {
               <p className="error"> {errors.marital_status?.message}</p>
             </label>
             <br />
-            <label>list of lab tests:</label>
             <div>
-              {labtestField.map((f, index) => {
-                return (
-                  <div key={f.id}>
-                    <label>Test:{index + 1}</label>
-                    <label>Test type:</label>
-                    <input
-                      type="text"
-                      {...register(`lab_tests.${index}.test` as const)}
-                    />
-                    <label>Results:{index + 1}</label>
-                    <input
-                      type="text"
-                      {...register(`lab_tests.${index}.results` as const)}
-                    />
-                    <button type="button" onClick={() => removeLabTest(index)}>
+              <label>Reports:</label>
+              <div>
+                {fields.map((field, index) => (
+                  <div key={field.id}>
+                    <label>Select entity_name</label>
+                    <select
+                      {...register(`reports.${index}.entity_name` as const, {
+                        required: "Please select an entity",
+                      })}
+                      onChange={(e) => {
+                        handleAddReport(index, parseInt(e.target.value));
+                        append({
+                          entity_name: "",
+                          id: 0,
+                          record_id: 0,
+                          report_entity_id: 0,
+                          values: [],
+                        });
+                        remove(fields.length);
+                      }}
+                    >
+                      <option value="">Select an entity</option>
+                      {entities.map((entity: any) => (
+                        <option key={entity.id} value={entity.id}>
+                          {entity.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button type="button" onClick={() => remove(index)}>
                       Remove
                     </button>
+                    {fields[index].values.map((value, index2) => (
+                      <div key={value.id}>
+                        <label>
+                          {
+                            entities.find(
+                              (entity: any) =>
+                                entities.indexOf(entity) ===
+                                value.report_entity_id
+                            ).attributes[index2].name
+                          }
+                        </label>
+                        <input
+                          {...register(
+                            `reports.${index}.values.${index2}.value` as const,
+                            {
+                              required: {
+                                value: true,
+                                message: "Don't forget to add value",
+                              },
+                            }
+                          )}
+                        />
+                      </div>
+                    ))}
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
             <br />
-            <label>list of medication:</label>
-            <div>
-              {medicationField.map((f, index) => {
-                return (
-                  <div key={f.id}>
-                    <label>Medication:{index + 1}</label>
-                    <label>Medication type:</label>
-                    <input
-                      type="text"
-                      {...register(`medications.${index}.med` as const)}
-                    />
-                    <label>Notes:{index + 1}</label>
-                    <input
-                      type="text"
-                      {...register(`medications.${index}.notes` as const)}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeMedication(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
             <div className="buttonDown">
               <div>
                 <button type="submit">Submit</button>
                 <button type="button" onClick={() => reset()}>
-                  reset
+                  Reset
                 </button>
               </div>
               <div>
-                <button onClick={handleAddRecord}> close</button>
+                <button onClick={handleAddRecord}>Close</button>
               </div>
             </div>
           </form>

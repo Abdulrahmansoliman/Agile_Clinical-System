@@ -40,12 +40,33 @@ export type Record = {
   }[];
 };
 
+export type entities = {
+  id: number;
+  name: string;
+  attributes: {
+    id: number;
+    name: string;
+    type: string;
+  }[];
+};
+
 type RecordListProps = {
   id: number;
 };
 
 const RecordList: React.FC<RecordListProps> = ({ id }) => {
   const [records, setRecords] = useState<Record[]>([]);
+  const [entites, setEntities] = useState<entities[]>([]);
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:5000/reports/entities`)
+      .then((response) => response.json())
+      .then((data) => {
+        setEntities(data.data);
+        //console.log(data.data);
+      })
+      .catch((error) => console.error("Error fetching entities:", error));
+  }, []);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:5000/records/${id}`)
@@ -60,7 +81,7 @@ const RecordList: React.FC<RecordListProps> = ({ id }) => {
     <div className="record-list">
       <div className="header">
         <h2>Records</h2>
-        <RecordForm id={id} />
+        <RecordForm id={id} entities={entites} />
       </div>
       {records.length === 0 ? (
         <div className="no-records">No records found</div>

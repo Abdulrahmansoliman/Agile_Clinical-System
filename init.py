@@ -28,6 +28,7 @@ with app.app_context():
     from routes.appointments.views import appointments_blueprint
     from routes.records.views import records_blueprint
     from routes.auth.views import auth_blueprint
+    from routes.reports.views import reports_blueprint
 
     app.register_blueprint(secretaries_blueprint, url_prefix='/secretaries')
     app.register_blueprint(doctors_blueprint, url_prefix='/doctors')
@@ -36,11 +37,14 @@ with app.app_context():
     app.register_blueprint(appointments_blueprint, url_prefix='/appointments')
     app.register_blueprint(records_blueprint, url_prefix='/records')
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    app.register_blueprint(reports_blueprint, url_prefix='/reports')
+
 # -----------------------------------------------#
 
 # this endpoint avoids errors that arise when the database
 # in concurrently created by multiple gunicorn workers in build
 # time and it should be removed in production
+
 
 class DatabaseConnection:
     __instance = None
@@ -53,7 +57,8 @@ class DatabaseConnection:
 
     def __init__(self):
         if DatabaseConnection.__instance is not None:
-            raise Exception("DatabaseConnection class is a Singleton! Use get_instance() method instead.")
+            raise Exception(
+                "DatabaseConnection class is a Singleton! Use get_instance() method instead.")
         else:
             DatabaseConnection.__instance = self
             self.db = SQLAlchemy()
@@ -62,7 +67,9 @@ class DatabaseConnection:
         self.db.create_all()
         import db_initialization_script
 
+
 db = DatabaseConnection.get_instance().db
+
 
 @app.route('/init')
 def init():
@@ -89,6 +96,5 @@ def index():
 
 
 if __name__ == '__main__':
-    #DEBUG is SET to TRUE. CHANGE FOR PROD
-    app.run(port=5000,debug=True)
-    
+    # DEBUG is SET to TRUE. CHANGE FOR PROD
+    app.run(port=5000, debug=True)
